@@ -394,15 +394,15 @@
 
 	// ==================================================
 
-	obj = 0;
+	/*obj = 0;
 
 	listlen = 0;
 	for (var i=0; i<100; i++) rowlist[i] = -1;
 
 	for (i=1; i<=m; i++) {
 	     document.getElementById("w"+i).value = wlabel[i];
-          document.getElementById("lb0"+i).value = lblabel[i];
-           document.getElementById("ub0"+i).value = ublabel[i]// +" ";
+         // document.getElementById("lb0"+i).value = lblabel[i];
+          // document.getElementById("ub0"+i).value = ublabel[i]// +" ";
 	}
 	element = document.getElementById("obj");
         var newwid = 1;
@@ -411,14 +411,14 @@
 	if (element != null) { newwid = Math.max(newwid, element.value.visualLength());}
 	for (i=1; i<=m; i++) {
 	    var element = document.getElementById("w"+i);
-        var element1 =  document.getElementById("lb0"+i);
+       // var element1 =  document.getElementById("lb0"+i);
         
-        var element2 =  document.getElementById("ub0"+i);
+       // var element2 =  document.getElementById("ub0"+i);
 	    newwid = Math.max(newwid, element.value.visualLength());
         
-	    newwid1 = Math.max(newwid1, element1.value.visualLength());
+	    //newwid1 = Math.max(newwid1, element1.value.visualLength());
         
-	    newwid2 = Math.max(newwid2, element2.value.visualLength());
+	   // newwid2 = Math.max(newwid2, element2.value.visualLength());
 	}
         newwid += 10;
         newwid2 += 10;
@@ -427,22 +427,22 @@
 	if (element != null) { element.style.width = newwid+"px";}
 	for (i=1; i<=m; i++) {
 	    var element = document.getElementById("w"+i);
-         var element1 =  document.getElementById("lb0"+i);
+         //var element1 =  document.getElementById("lb0"+i);
         
-        var element2 =  document.getElementById("ub0"+i);
+        //var element2 =  document.getElementById("ub0"+i);
 	    element.style.width = newwid+"px";
-         element2.style.width = newwid2+"px";
-         element1.style.width = newwid1+"px";
+        // element2.style.width = newwid2+"px";
+         //element1.style.width = newwid1+"px";
       
 	}
 	for (j=1; j<=n; j++) {
 	     document.getElementById("x0,"+j).value = xlabel[j];
-         document.getElementById("l0"+j).value = llabel[j];
-         document.getElementById("u0"+j).value = ulabel[j];
+         //document.getElementById("l0"+j).value = xlabel[j];
+         //document.getElementById("u0"+j).value = xlabel[j];
         // +" ";
 	     var wid = document.getElementById("x0,"+j).value.visualLength() + 10;
-         var wid1 = document.getElementById("l0"+j).value.visualLength()+15;
-  var wid2 = document.getElementById("u0"+j).value.visualLength()+12;
+         //var wid1 = document.getElementById("l0"+j).value.visualLength()+10;
+ // var wid2 = document.getElementById("u0"+j).value.visualLength()+10;
              for (i=0; i<=m; i++) {
 	         document.getElementById("x"+i+","+j).value = xlabel[j];
             // +" ";
@@ -452,13 +452,13 @@
                
                  
              }
-              document.getElementById("l0"+j).value = llabel[j];
-             document.getElementById("u0"+j).value = ulabel[j];
-             var element1 = document.getElementById("l0"+j);
-                   var element2 = document.getElementById("u0"+j);
-                     element1.style.width = wid1+"px";
-                 element2.style.width = wid2+"px";
-	}
+  //            document.getElementById("l0"+j).value = xlabel[j];
+    //         document.getElementById("u0"+j).value = xlabel[j];
+      //       var element1 = document.getElementById("l0"+j);
+        //          var element2 = document.getElementById("u0"+j);
+          //           element1.style.width = wid1+"px";
+            //     element2.style.width = wid2+"px";
+	}*/
 
 	if(n>2){
     for (j=1; j<=2; j++) {upperbound[j] = j;}
@@ -619,12 +619,12 @@
             element.style.width = newwid+"px";
 	}
     
-    var element = document.getElementById("l"+(m+1)+","+j);
-	    element.value = newvalue;
-            element.style.width = newwid+"px";  
-            var element = document.getElementById("u"+(m+2)+","+j);
-	    element.value = newvalue;
-            element.style.width = newwid+"px";  
+    //var element = document.getElementById("l"+(m+1)+","+j);
+	   // element.value = newvalue;
+           // element.style.width = newwid+"px";  
+           // var element = document.getElementById("u"+(m+2)+","+j);
+	  //  element.value = newvalue;
+         //   element.style.width = newwid+"px";  
 	toGrid();
   }
 
@@ -692,7 +692,7 @@
 	}
 	removeElements(document.querySelectorAll("#rowStuff"+(m0+1)+" input"));
     
-	m0 = m+2; 
+	m0 = m+4; 
 
 	// fmt = "Decimal";
 	seed = 0;
@@ -707,8 +707,8 @@
             for (i=1; i<=m; i++) { wlabel[i] = "w"+sub[i]; }
             for (i=1; i<=m; i++) { lblabel[i] = "lb"+sub[i]; }
             for (i=1; i<=m; i++) { ublabel[i] = "ub"+sub[i]; }
-            for (i=1; i<=n; i++) { llabel[i] = "l"+sub[i]; }
-            for (i=1; i<=n; i++) { ulabel[i] = "u"+sub[i]; }
+            for (i=1; i<=n; i++) { llabel[i] = "x"+sub[i]; }
+            for (i=1; i<=n; i++) { ulabel[i] = "x"+sub[i]; }
 	} else{}
 	
 	
@@ -723,14 +723,24 @@
 	  rowElement = document.getElementById("rowStuff"+0);
 	  rowElement.appendChild(element);
 	  */
- add("text","",7,0,"readonly","sign","md0");
-  document.getElementById("md0").style.textAlign = "center";
+    add("text",""       ,1 ,0,"readonly"        ,"sign" ,"lb"  );
+     add("text","",1 ,0,"readonly","sign"   ,"lb0");
+     add("text","Maximize"       ,1 ,0,"readonly"        ,"sign" ,"md0"  );
+    //add("text"," = "    ,1 ,i,"readonly","equals","e"+i   );
+    
+    // add("text"," "    ,1 ,i,"readonly","commas","co"+i   );
+   
+     
+ 
+
+        document.getElementById("md0").style.textAlign = "center";
        // add("text","Maximize",7,0,"readonly","sign","max");
         //document.getElementById("max").style.textAlign = "center";
-	add("text",""+zlabel+" ",2,0,"readonly","var"   ,"obj"   );
+	add("text","" +zlabel+ " ",2,0,"readonly","var"   ,"obj"   );
+    document.getElementById("obj").style.textAlign = "center";
 	add("text"," = "     ,3,0,"readonly","equals","e0"      );
 	
-	    add("text","0"       ,3 ,0,""        ,"val" ,"zstar");
+	    add("text","0"       ,5 ,0,""        ,"val" ,"zstar");
 	//add("text","  +"    ,3 ,0,"readonly","sign","plus" );
 	for (j=1; j<=n; j++) {
 	    
@@ -738,11 +748,16 @@
 	    
 	    add("text","0"       ,5 ,0,""        ,"val" ,"c"+j  );
 	    add("text",xlabel[j],3 ,0,"","var" ,"x0,"+j);
+       
+          
         
 	    element = document.getElementById("x0,"+j);
             // element.disabled = true;
 	    element.setAttribute("onchange","updateColLabels("+j+")");
 	}
+      add("text","",3,0,"readonly","sign","md2");
+        add("text","",6,0,"readonly","sign","md2");
+        
 	element = document.createElement("br");
 	rowElement = document.getElementById("rowStuff"+0);
 	rowElement.appendChild(element);
@@ -752,15 +767,20 @@
 	rowElement.appendChild(element);
 	*/
 
-	for (i=1; i<=m; i++) {add("text",lblabel[i],1 ,i,"","var"   ,"lb0"+i);
-    add("text"," = "    ,1 ,i,"readonly","equals","e"+i   );
-     add("text","0"       ,2 ,i,""        ,"val" ,"lb"+i  );
-     add("text"," ; "    ,1 ,i,"readonly","commas","co"+i   );
+	for (i=1; i<=m; i++) {
+     
+     add("text",lblabel[i],1 ,i,"","var"   ,"lb0"+i);
+     add("text","0"       ,1 ,i,""        ,"val" ,"lb"+i  );
+    //add("text"," = "    ,1 ,i,"readonly","equals","e"+i   );
+    
+    // add("text"," "    ,1 ,i,"readonly","commas","co"+i   );
+   
      add("text",ublabel[i],1 ,i,"","var"   ,"ub0"+i);
-    add("text"," = "    ,1 ,i,"readonly","equals","e"+i   );
-     add("text"," 0 "    ,2 ,i,"","val","ub"+i  );
-     add("text"," ; "    ,1 ,i,"readonly","commas","co"+i   );
-	    add("text",wlabel[i],2 ,i,"","var"   ,"w"+i);   
+      add("text"," 0 "    ,1 ,i,"","val","ub"+i  );
+   // add("text"," = "    ,1 ,i,"readonly","equals","e"+i   );
+     
+     //add("text"," "    ,1 ,i,"readonly","commas","co"+i   );
+	    add("text",wlabel[i],1 ,i,"","var"   ,"w"+i);   
 	    element = document.getElementById("w"+i);
 	    element.setAttribute("onchange","updateRowLabel("+i+")");
          add("text"," = "    ,3 ,i,"readonly","equals","e"+i   );
@@ -773,7 +793,7 @@
 	            add("text"  ,"0"           ,5 ,i,""        ,"val"   ,"a"+i+","+j);
 		    add("button",xlabel[j]+" ","",i,""        ,"butvar"   ,"x"+i+","+j);
                     */
-                    add("text"  ,"  -"        ,1,i,"readonly","sign" ,"minus"+i+","+j   );
+                    add("text"  ,"  -"        ,3,i,"readonly","sign" ,"minus"+i+","+j   );
                     tmp = document.getElementById("minus"+i+","+j);
                     tmp.style.backgroundColor = "#F8F8F8";
 	            add("text"  ,"0"           ,5 ,i,""        ,"val"   ,"a"+i+","+j);
@@ -781,38 +801,83 @@
                     tmp.style.backgroundColor = "#F8F8F8";
 		    add("button",xlabel[j]+" ","",i,""        ,"butvar"   ,"x"+i+","+j);
 		
-	    } add("text"," = "    ,3 ,i,"readonly","equals","e"+i   );
+	    } add("text"," = "    ,4 ,i,"readonly","equals","e"+i   );
          add("text"  ,"0"           ,5 ,i,""    ,"val"   ,"vb"+i);
+          element = document.createElement("br");
+	rowElement = document.getElementById("rowStuff"+i);
+	rowElement.appendChild(element);
 	}
+   
 	for (i=1; i<=m; i++) {
 	    for (j=1; j<=n; j++) {
 	        var element = document.getElementById("x"+i+","+j);
 	        element.setAttribute("onclick","gotClicked("+i+","+j+")");
 	    }
 	}
-add("text","lowerbound:",7,m+1,"readonly"   ,"lb0");
-add("text","",55,m+1,"readonly"   ,"spc");
+   
+//add("text","lowerbound:",7,m+1,"readonly"   ,"lb0");
+//add("text","",55,m+1,"readonly"   ,"spc");
+ 
+   //  add("text",""       ,1 ,m+1,"readonly"        ,"sign" ,"lb0"  );
+    //add("text"," = "    ,1 ,i,"readonly","equals","e"+i   );
+    
+    // add("text"," "    ,1 ,i,"readonly","commas","co"+i   );
+   
+     
+      
+   // add("text"," = "    ,1 ,i,"readonly","equals","e"+i   );
+     
+    // add("text"," "    ,1 ,i,"readonly","commas","co"+i   );
+	   // add("text","",1 ,m+1,"readonly","sign"   ,"w");   
+	    
+         //add("text","",1 ,m+1,"readonly","sign"   ,"w");  
+         //add("text","  "    ,3,m+1,"readonly","sign","e"   );
+        
+	    // add("text",""       ,12.9999,m+1,"readonly"        ,"sign"   ,"b");
+         add("text","Lowerbound",48 ,m+1,"readonly","sign"   ,"md3");
+         document.getElementById("md3").style.textAlign = "right";
+         
+    
      for (j=1; j<=n; j++) {
 		
-                        /*
-                    add("text"  ,"  -"        ,3 ,i,"readonly","sign" ,"minus"+i+","+j   );
-	            add("text"  ,"0"           ,5 ,i,""        ,"val"   ,"a"+i+","+j);
-		    add("button",xlabel[j]+" ","",i,""        ,"butvar"   ,"x"+i+","+j);
-                    */
+                   
                     
-                    add("text"  ," ; "        ,1,m+1,"readonly","sign" ,"minus"+(m+1)+","+j   );
-                    tmp = document.getElementById("minus"+(m+1)+","+j);
-                    tmp.style.backgroundColor = "#F8F8F8";
-	            add("text"  ,"0"           ,3,m+1,""        ,"val"   ,"l"+(m+1)+","+j);
+                    add("text"  ,"  "        ,3,m+1,"readonly","sign" ,"minus"+(m+1)+","+j   );
+                    //tmp = document.getElementById("minus"+(m+1)+","+j);
+                    //tmp.style.backgroundColor = "#F8F8F8";
+	            add("text"  ,"0"           ,5,m+1,""        ,"val"   ,"l"+(m+1)+","+j);
                     tmp = document.getElementById("l"+(m+1)+","+j);
                     tmp.style.backgroundColor = "#F8F8F8";
-		    add("button",llabel[j]+"","",m+1,"","butvar"   ,"l0"+j);
+		    add("button",llabel[j]+"",3,m+1,"","butvar"   ,"l0"+j);
 		
-	    }  add("text","  "    ,3 ,i,"readonly","equals","e"+i   );
-         add("text","  "    ,5 ,i,"readonly","equals","e"+i   );    
+	    }  add("text","  "    ,4 ,m+1,"readonly","sign","e"   );
+         add("text","  "    ,7,m+1,"readonly","sign","e"  ); 
+         
+        if(n>2){ for(i=3;i<=n;i++){
+    document.getElementById("l"+(m+1)+","+i).style.backgroundColor = "#FF7F50";
+     }}else{ document.getElementById("l"+(m+1)+","+2).style.backgroundColor = "#FF7F50";}
+  
 
-add("text","upperbound:",7,m+2,"readonly"   ,"ub0");
-add("text","",55,m+2,"readonly"   ,"spc");
+//add("text","upperbound:",7,m+2,"readonly"   ,"ub0");
+//add("text","",55,m+2,"readonly"   ,"spc");
+
+    //add("text"," = "    ,1 ,i,"readonly","equals","e"+i   );
+    
+    // add("text"," "    ,1 ,i,"readonly","commas","co"+i   );
+   
+     
+      
+   // add("text"," = "    ,1 ,i,"readonly","equals","e"+i   );
+     
+    // add("text"," "    ,1 ,i,"readonly","commas","co"+i   );
+	    //add("text","",1 ,m+2,"readonly","sign"   ,"w");   
+        //add("text","",1 ,m+2,"readonly","sign"   ,"w"); 
+	    
+        // add("text","",1 ,m+2,"readonly","sign"   ,"w");  
+       //  add("text","  "    ,3,m+2,"readonly","sign","e"   );
+         // add("text","  "    ,5,m+2,"readonly","sign","e"   );
+          add("text","Upperbound",48 ,m+2,"readonly","sign"   ,"md4");
+          document.getElementById("md4").style.textAlign = "right";
      for (j=1; j<=n; j++) {
 		
                         /*
@@ -821,20 +886,36 @@ add("text","",55,m+2,"readonly"   ,"spc");
 		    add("button",xlabel[j]+" ","",i,""        ,"butvar"   ,"x"+i+","+j);
                     */
                     
-                    add("text"  ," ; "        ,1,m+2,"readonly","sign" ,"minus"+(m+2)+","+j   );
-                    tmp = document.getElementById("minus"+(m+2)+","+j);
-                    tmp.style.backgroundColor = "#F8F8F8";
-	            add("text"  ,"0"           ,3,m+2,""        ,"val"   ,"u"+(m+2)+","+j);
+                    add("text"  ,"  "        ,3,m+2,"readonly","sign" ,"minus"+(m+2)+","+j   );
+                   // tmp = document.getElementById("minus"+(m+2)+","+j);
+                   // tmp.style.backgroundColor = "#F8F8F8";
+	            add("text"  ,"0"           ,5,m+2,""        ,"val"   ,"u"+(m+2)+","+j);
                     tmp = document.getElementById("u"+(m+2)+","+j);
                     tmp.style.backgroundColor = "#F8F8F8";
 		    add("button",ulabel[j]+"","",m+2,"","butvar"   ,"u0"+j);
 		
-	    }  add("text",""    ,12,m+2,"readonly","equals","e"+m+2   );
+	    } add("text","  "    ,4 ,m+2,"readonly","sign","e"   );
+         add("text","  "    ,7,m+2,"readonly","sign","e"  );  
+         if(n>2){  for(i=1;i<=2;i++){
+     document.getElementById("u"+(m+2)+","+i).style.backgroundColor = "#6A5ACD";
+     } }else{document.getElementById("u"+(m+2)+","+1).style.backgroundColor = "#6A5ACD";}
     
 	    element = document.createElement("br");
 	    rowElement = document.getElementById("rowStuff"+(m+2));
 	    rowElement.appendChild(element);
+          element = document.createElement("br");
+	    rowElement = document.getElementById("rowStuff"+(m+2));
+	    rowElement.appendChild(element);
     
+	add("button", "", 80, m+3, "readonly", "var", "basicvars");
+	add("button", "", 80, m+4, "readonly", "var", "nonbasicvars");
+	for (i=1; i<=m; i++) {
+	    for (j=1; j<=n; j++) {
+	        var element = document.getElementById("x"+i+","+j);
+	        element.setAttribute("onclick","gotClicked("+i+","+j+")");
+	    }
+	}
+
 
 	/*
 	if (!isSafari) {
@@ -1440,10 +1521,13 @@ if(n>2){
   function toGrid() {
 	var element;
 	var nnv = "      ";
+    	var nnv1= "      ";
         var wid;
         var tmp = "";
         var eps = 1e-4;
-
+        var tmp1="";
+        var tmp2="";
+        var tmp3="";
 	makePlot();
 
         tmp = ""+myformat(obj);
@@ -1479,12 +1563,7 @@ if(n>2){
                 tmp = ""+myformat(-a[i][j]);
                 wid = Math.max(wid, tmp.length);
                 maxden = Math.max(maxden, den);
-             tmp1 = ""+myformat(l[m+1][j]);
-                wid = Math.max(wid, tmp1.length);
-                maxden = Math.max(maxden, den);
-                 tmp2 = ""+myformat(u[m+2][j]);
-                wid = Math.max(wid, tmp2.length);
-                maxden = Math.max(maxden, den);
+            
             }
            
             document.getElementById("c"+j).setAttribute("size", wid);
@@ -1500,11 +1579,16 @@ if(n>2){
            document.getElementById("x1,"+j).getAttribute("value").length+1);
         }
 
-        //tmp = "subject to:   "+maxden+" "; 
-        //wid = Math.max(tmp.length,1);
-       /* for (i=0; i<=m; i++) {
-            document.getElementById("md"+i).setAttribute("size", wid);
-        }*/
+      
+        tmp="Maximize".length;
+            document.getElementById("md"+0).setAttribute("size", tmp);
+            
+       // tmp1="Lowerbounduppp".length;
+        //tmp2=document.getElementById("lb0"+1).size;
+         //tmp3=document.getElementById("lb"+1).size;
+         
+           // document.getElementById("md"+3).setAttribute("size", 2*(tmp2+tmp3));    
+//document.getElementById("md"+4).setAttribute("size", tmp1);
 
 	for (j=1; j<=n; j++) {
 	    element = document.getElementById("c"+j);
@@ -1530,6 +1614,12 @@ if(n>2){
                   if (document.getElementById("plus"+j) != null)
                       document.getElementById("plus"+j).className = "sign"; 
             }
+             if ((method != "Klee-Minty" && method != "Lexicographic") || j>m) {
+	      if (c[j] >  1e-10) { element.className = "pinkval"; 
+                                   document.getElementById("x0,"+j).className = "var"; } 
+	     nnv1 += document.getElementById("l"+(m+1)+","+j).value + " \u2264" +  document.getElementById("x0,"+j).value +"\u2264 " +document.getElementById("u"+(m+2)+","+j).value ;
+	   if(j<n){nnv1 +=";  ";}
+	    }
 	}
 
 	for (i=1; i<=m; i++) {
@@ -1553,14 +1643,11 @@ if(n>2){
                                } else
 	                       { element.className = "val"; }
 	  }
-	  nnv += document.getElementById("w"+i).value;
-	  if (i<m) {
-		nnv += ",  ";
-	  } else {
-		nnv += "  \u2265  0";
-	  }
+        
+		nnv += document.getElementById("lb"+i).value + " \u2264" +  document.getElementById("w"+i).value +" \u2264" +document.getElementById("ub"+i).value;
+	  if(i<m){nnv+=";  ";}
 	}
-        /*element = document.getElementById("md1"); 
+     /*   element = document.getElementById("md1"); 
         if (fmt == "Integer" && maxden != 1) { 
                 element.value = "subject to:   "+maxden; 
         } else { 
@@ -1603,27 +1690,32 @@ if(n>2){
 
         console.log("hello bob");
 	if (method != "Klee-Minty") {
-	    element = document.getElementById("md0");   
-            if (fmt == "Integer" && maxden != 1) { 
-                    element.value = "maximize   "+maxden+" "; 
-            } else { 
-                    element.value = "maximize     "; 
-            }
+	  //  element = document.getElementById("md0");   
+          //  if (fmt == "Integer" && maxden != 1) { 
+            //        element.value = "max   "+maxden+" "; 
+            //} else { 
+              //      element.value = "maximize "; 
+            //}
 	    element = document.getElementById("zstar"); 
             element.value = myformat2(obj);
             console.log("obj = "+obj);
-            if (obj == 0) { element.className = "whiteval"; } else 
+           // if (obj == 0) { element.className = "whiteval"; } else 
                           { element.className = "val"; }
             element = document.getElementById("plus"+1);
-            if (obj == 0) { element.className = "whitesign"; } 
+           // if (obj == 0) { element.className = "whitesign"; } 
 	
 	}
 
-	/*if (listlen == 0) {
-	    element = document.getElementById("nonnegvars");
+	if (listlen == 0) {
+	    element = document.getElementById("basicvars");
 	    element.value = nnv;
 	    element.style.color = "gray";
-	}*/
+	}
+    if (listlen == 0) {
+	    element = document.getElementById("nonbasicvars");
+	    element.value = nnv1;
+	    element.style.color = "gray";
+	}
   }
 
   function fillArc(x,y,r,theta0, theta1)
@@ -1890,5 +1982,4 @@ Select an Exercise from <i>Linear Programming: Foundations and Extensions</i>:
 
 </BODY>
 </HTML>
-
 
