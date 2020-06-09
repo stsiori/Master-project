@@ -16,14 +16,9 @@
   var a=[];
   var b=[];
   var c=[];
-  var l=[];
-  var u=[];
   var basics=[];
-  var upperbound=[];
-  var lowerbound=[];
-  var lb=[];
-  var ub=[];
-  var vb=[];
+var upperbound=[];
+var lowerbound=[];
   var obj;
   var element;
   var method;
@@ -98,9 +93,11 @@
               element.setAttribute("onblur", "toGrid()");
           }
           */
-          if (type == "text" && clas != "sign" && clas != "var") {
-              element.setAttribute("onmouseover", "makeitshow(id)");
+         if (type == "text" && clas != "sign" && clas != "var") {
+              element.setAttribute("onmouseover", "ck_edits(); toGrid()");
               element.setAttribute("onmouseleave", "ck_edits(); toGrid()");
+  //element.setAttribute("onmouseover", "makeitshow(id)");
+            
           }
   
   
@@ -111,13 +108,13 @@
   
   }
 
-  function makeitshow(id) {
+ /* function makeitshow(id) {
           var element;
           element = document.getElementById(id);
-          if (element != null && element.value == 0) {
+          if (element != null && element.value==0) {
                   element.className = "val"; 
           }
-  } 
+  } */
 
   function removeElements(elements) {
 	  for (var i=0; i<elements.length; i++) {
@@ -173,8 +170,7 @@
           toGrid();
   }
   function setMethod(v) { method = v.valueOf(); start();}
-  // function setFormat(v) { fmt = v.valueOf(); ck_edits(); toGrid();}
-  // function setVisibility(v) { vis = v.valueOf(); ck_edits(); toGrid();}
+
   function setFormat(v) { 
           var ctr_right;
           fmt = v.valueOf(); 
@@ -278,11 +274,10 @@
 if(n>2){  
 for(i=1;i<=2;i++){ 
      element=document.getElementById("l"+(m+1)+","+i);
-      element.style.backgroundColor = "#ffaa80";
-     for(j=3;j<=n;j++){document.getElementById("u"+(m+2)+","+j).style.backgroundColor = " #b3b3ff";}
-     }
+      element.className="orangeval";}
+     for(j=3;j<=n;j++){element=document.getElementById("u"+(m+2)+","+j); element.className = "purpleval";}
     }
-    else if(n==1){document.getElementById("l"+(m+1)+","+1).style.backgroundColor = "#ffaa80";}else{document.getElementById("l"+(m+1)+","+1).style.backgroundColor = "#ffaa80";document.getElementById("u"+(m+2)+","+2).style.backgroundColor = " #b3b3ff";}
+    else if(n==1){document.getElementById("l"+(m+1)+","+1).className = "purpleval";}else{document.getElementById("l"+(m+1)+","+1).className= "purpleval";document.getElementById("u"+(m+2)+","+2).className = "orangeval";}
 
 
 // ==================================================
@@ -377,10 +372,6 @@ for(i=1;i<=2;i++){
 		}
 	}
 
-     for (i=1; i<=m; i++)
-     {if(n>2) {for(j=3;j<=n;j++){document.getElementById("vb"+i).value=b[i]+a[i][1]*document.getElementById("l"+(m+1)+","+1).value+a[i][j]*document.getElementById("l"+(m+1)+","+2).value+a[i][j]*document.getElementById("u"+(m+2)+","+j).value;}}
-     else if(n==2){document.getElementById("vb"+i).value=b[i]+a[i][1]*document.getElementById("l"+(m+1)+","+1).value+a[i][2]*document.getElementById("u"+(m+2)+","+2).value;}
-     else{document.getElementById("vb"+i).value=b[i]+a[i][1]*document.getElementById("l"+(m+1)+","+1).value;}}
      
 	if (n==2 && method == "Primal" && myrand() < 0.8) {
 		var xcenter = 1.0 + myrand()*m/9;
@@ -491,14 +482,20 @@ for(i=1;i<=2;i++){
 	if (row != -1) {
 		pivot(row,col);
 	}
+if (row != -1){
+lowgotChoice(col);}
+if (row != -1){upgotChoice(col);}
+
   }
 
-  function Hint() {
+   function Hint() {
 	var tmp, eps=1e-6;
+
 	/*if (method == "Primal w/ x0") {
 	    if (listlen == 0) {
 		tmp = 1e+10;
 		for (i=1; i<=m; i++) {
+        
 		  if (b[i] < tmp) {
 		    tmp = b[i];
 		  }
@@ -526,31 +523,70 @@ for(i=1;i<=2;i++){
 	      }
 	    }
 	}
-	else*/ if (method == "Primal") {
-	    for (i=1; i<=m; i++) {
-        element=document.getElementById("vb"+i).value;
-        var elt=document.getElementById("lb"+i).value;
-var elt1=document.getElementById("ub"+i).value;
-	      if (element > elt1*(eps) || element < elt*(eps)) { return; }
-	    }
- for (j=1; j<=n; j++) {
-var element1=document.getElementById("l"+(m+1)+","+j).value;
-var element2=document.getElementById("u"+(m+2)+","+j).value;
-	      if( c[j]<-1e-10) {
-		/*tmp = 1e+10;
-		for (i=1; i<=m; i++) {
-		  if (a[i][j] < -eps) {
-		    tmp = -b[i]/a[i][j];
-		  }
-		}*/
-		for (i=1; i<=m; i++) {
-		  if (a[i][j] < -eps) {
-		    document.getElementById("x"+i+","+j).className = "greenvar";
-		  }
-		}
-	      }
-	    }
+	else*/ 
+
+if (method == "Primal") {
+var colov=[];
+	
+	for (i=1; i<=m; i++) {
+		element=document.getElementById("vb"+i);
+                         colov[i]=window.getComputedStyle(element).backgroundColor;
+	
+			}
+ var coloc=[];
+	
+	for (i=1; i<=n; i++) {
+		element=document.getElementById("c"+i);
+                         coloc[i]=window.getComputedStyle(element).backgroundColor;}
+
+			if ( colov.indexOf("rgb(255, 170, 255)")!= -1) {  
+for (i=1; i<=m; i++){element=document.getElementById("vb"+i);
+if ( element.className==="pinkval"){
+				for (j=1; j<=n; j++) {
+		    			document.getElementById("x"+i+","+j).className = "greenvar";
+				}}}
+
+			}
+		
+	else
+	{for (j=1; j<=n; j++) {
+			element=document.getElementById("c"+j);
+        		var element1=document.getElementById("l"+(m+1)+","+j);
+       			var element2=document.getElementById("u"+(m+2)+","+j);
+
+
+		if(element1.className==="orangeval" && c[j]>eps){ 
+				tmp = 1e+10;
+				for (i=1; i<=m; i++) {
+		  			if (a[i][j] < -eps && -b[i]/a[i][j] < tmp) {
+		    				tmp = -b[i]/a[i][j];
+		  			}
+				}
+				for (i=1; i<=m; i++) {
+		  			if (a[i][j] < -eps && -b[i]/a[i][j] < tmp+eps) {
+		    				document.getElementById("x"+i+","+j).className = "greenvar";
+		  			}
+				}
+	      		}
+			if(element2.className==="purpleval" && c[j]<-eps){
+				tmp = 1e+10;
+				for (i=1; i<=m; i++) {
+		  			if (a[i][j] > eps && b[i]/a[i][j] < tmp) {
+		   				tmp = b[i]/a[i][j];
+		  				}
+					}
+				for (i=1; i<=m; i++) {
+		  			if (a[i][j] > eps && b[i]/a[i][j] < tmp+eps) {
+		    				document.getElementById("x"+i+","+j).className = "greenvar";
+		  			}
+				}
+	     		}
+	   	}
 	}
+
+} 
+
+
 	else if (method == "Dual") {
 	    for (j=1; j<=n; j++) {
 	      if (c[j] > eps) { return; }
@@ -586,7 +622,7 @@ var element2=document.getElementById("u"+(m+2)+","+j).value;
 	      if (be[i] < -eps10) { return; }
 	    }
 	    for (j=mmn+1; j<=n; j++) {
-	      if (c[j] > eps) {
+	      if (c[j] > eps10) {
 		tmp = 1e+100;
 		for (i=1; i<=m; i++) {
 		  if (a[i][j] < -eps && -be[i]/a[i][j] < tmp) {
@@ -594,7 +630,7 @@ var element2=document.getElementById("u"+(m+2)+","+j).value;
 		  }
 		}
 		for (i=1; i<=m; i++) {
-		  if (a[i][j] < -eps && -be[i]/a[i][j] <= tmp+eps) {
+		  if (a[i][j] < -eps && -be[i]/a[i][j] <= tmp+eps10) {
 		    document.getElementById("x"+i+","+j).className = "greenvar";
 		  }
 		}
@@ -602,6 +638,7 @@ var element2=document.getElementById("u"+(m+2)+","+j).value;
 	    }
 	}
   }
+
 
   function updateColLabels(j) {
 	var tmp0, tmp1, tmp2;
@@ -706,11 +743,9 @@ var element2=document.getElementById("u"+(m+2)+","+j).value;
 	if (method == "Primal") {
             for (j=1; j<=n; j++) { xlabel[j] = "x"+sub[j]; }
             for (i=1; i<=m; i++) { wlabel[i] = "w"+sub[i]; }
-            for (i=1; i<=m; i++) { lblabel[i] = "lb"+sub[i]; }
-            for (i=1; i<=m; i++) { ublabel[i] = "ub"+sub[i]; }
             for (i=1; i<=n; i++) { llabel[i] = "x"+sub[i]; }
             for (i=1; i<=n; i++) { ulabel[i] = "x"+sub[i]; }
-	} else{}
+	}
 	
 	
 	    zlabel = "\u03B6";
@@ -732,7 +767,7 @@ var element2=document.getElementById("u"+(m+2)+","+j).value;
 	    add("text","  +"    ,3 ,0,"readonly","sign","plus"+j );
 	    
 	    add("text","0"       ,5 ,0,""        ,"val" ,"c"+j  );
-  document.getElementById("c"+j).style.backgroundColor = "#F8F8F8";
+
 	    add("text",xlabel[j],3 ,0,"","var" ,"x0,"+j);
         
        
@@ -742,14 +777,15 @@ var element2=document.getElementById("u"+(m+2)+","+j).value;
            element.style.backgroundColor="#ebebe0";
 	    element.setAttribute("onchange","updateColLabels("+j+")");
 	}add("text","  "    ,1 ,0,"readonly","sign","e"  );
-         add("text"  ,""           ,1 ,0,"readonly","sign" ,"e" );
+         add("button"  ,"vb"           ,1 ,0,"readonly","butvar" ,"vb"+0 );
+
            add("text","  "    ,1 ,0,"readonly","equals","e"  );
-add("text","",1 ,0,"readonly","sign"  ,"lb0"+0);
+add("button","lb",1 ,0,"","butvar"  ,"lb"+0);
      add("text",""       ,1 ,0,"readonly","sign" ,"e"  );
    
     
    
-     add("text","",1 ,0,"readonly","sign" ,"ub0"+0);
+     add("button","ub",1 ,0,"","butvar" ,"ub"+0);
       add("text"," "    ,1 ,0,"readonly","sign","e" );
   
 
@@ -780,14 +816,14 @@ add("text","",1 ,0,"readonly","sign"  ,"lb0"+0);
 	    } add("text"," = "    ,1 ,i,"readonly","equals","e"+i   );
          add("text"  ,"0"           ,1 ,i,""    ,"val"   ,"vb"+i);
           add("text","  "    ,1 ,i,"readonly","equals","e"+i   );
-add("button",lblabel[i],1 ,i,"","butvar"   ,"lb0"+i);
+add("text","0",1 ,i,"","val"   ,"lb"+i);
  
-     add("text","0"       ,1 ,i,""        ,"val" ,"lb"+i  );
+     add("text",""       ,1 ,i,"readonly"        ,"sign" ,"e"  );
    
-     add("button",ublabel[i],1 ,i,"","butvar"   ,"ub0"+i);
+     add("text","0",1 ,i,"","val"   ,"ub"+i);
 
 tmp.style.textAlign="center";
-      add("text"," 0 "    ,1 ,i,"","val","ub"+i  );
+      add("text"," "    ,1 ,i,"readonly","sign","e"  );
   
           element = document.createElement("br");
 	rowElement = document.getElementById("rowStuff"+i);
@@ -819,19 +855,21 @@ tmp.style.textAlign="center";
                     add("text"  ,"  "        ,3,m+1,"readonly","sign" ,"minus"+(m+1)+","+j   );
                   
 	            add("text"  ,"0"           ,5,m+1,""        ,"val"   ,"l"+(m+1)+","+j);
-                    tmp = document.getElementById("l"+(m+1)+","+j);
-                    tmp.style.backgroundColor = "#F8F8F8";
+                    
 		    add("button",llabel[j]+"",3,m+1,"","butvar"   ,"x"+(m+1)+","+j);
 		
 	    } add("text","  "    ,1 ,m+1,"readonly","sign","e"  );
-         add("text"  ,""           ,1 ,m+1,"readonly","sign" ,"e" );
+         add("text"  ,""           ,1 ,m+1,"readonly","sign" ,"vb"+(m+1) );
            add("text","  "    ,1 ,m+1,"readonly","equals","e"  );
-add("text","",1 ,m+1,"readonly","sign"  ,"lb0"+(m+1));
+add("text","",1 ,m+1,"readonly","sign"  ,"lb"+(m+1));
      add("text",""       ,1 ,m+1,"readonly","sign" ,"e"  );
    
-    
+     for (j=1; j<=n; j++) {
+	        var element = document.getElementById("x"+(m+1)+","+j);
+	        element.setAttribute("onclick","lowgotChoice("+j+")");
+	    }
    
-     add("text","",1 ,m+1,"readonly","sign" ,"ub0"+(m+1));
+     add("text","",1 ,m+1,"readonly","sign" ,"ub"+(m+1));
       add("text"," "    ,1 ,m+1,"readonly","sign","e" );
 
 
@@ -848,18 +886,17 @@ add("text","",1 ,m+1,"readonly","sign"  ,"lb0"+(m+1));
                     add("text"  ,"  "        ,3,m+2,"readonly","sign" ,"minus"+(m+2)+","+j   );
                   
 	            add("text"  ,"0"           ,5,m+2,""        ,"val"   ,"u"+(m+2)+","+j);
-                    tmp = document.getElementById("u"+(m+2)+","+j);
-                    tmp.style.backgroundColor = "#F8F8F8";
+                  
 		    add("button",ulabel[j]+"","",m+2,"","butvar"   ,"x"+(m+2)+","+j);
 		
 	    } add("text","  "    ,1 ,m+2,"readonly","sign","e"  );
-         add("text"  ,""           ,1 ,m+2,"readonly","sign" ,"e" );
+         add("text"  ,""           ,1 ,m+2,"readonly","sign" ,"vb"+(m+2) );
            add("text","  "    ,1 ,m+2,"readonly","equals","e"  );
-add("text","",1 ,m+2,"readonly","sign"  ,"lb0"+(m+2));
+add("text","",1 ,m+2,"readonly","sign"  ,"lb"+(m+2));
      add("text",""       ,1 ,m+2,"readonly","sign" ,"e"  );
    
     
-   add("text","",1 ,m+2,"readonly","sign" ,"ub0"+(m+2));
+   add("text","",1 ,m+2,"readonly","sign" ,"ub"+(m+2));
       add("text"," "    ,1 ,m+2,"readonly","sign","e" );
 
     
@@ -869,6 +906,7 @@ add("text","",1 ,m+2,"readonly","sign"  ,"lb0"+(m+2));
           element = document.createElement("br");
 	    rowElement = document.getElementById("rowStuff"+(m+2));
 	    rowElement.appendChild(element);
+
     
 	add("button", "", 80, m+3, "readonly", "var", "basicvars");
 	add("button", "", 80, m+4, "readonly", "var", "nonbasicvars");
@@ -878,7 +916,18 @@ add("text","",1 ,m+2,"readonly","sign"  ,"lb0"+(m+2));
 	        element.setAttribute("onclick","gotClicked("+i+","+j+")");
 	    }
 	}
+	 
 
+	 for (j=1; j<=n; j++) {
+	        var element = document.getElementById("x"+(m+1)+","+j);
+	        element.setAttribute("onclick","lowgotChoice("+j+")");
+	    }
+	
+ for (j=1; j<=n; j++) {
+	        var element = document.getElementById("x"+(m+2)+","+j);
+	        element.setAttribute("onclick","upgotChoice("+j+")");
+	    }
+	
 
 	
 	if (Math.random() <= 0.5) {
@@ -888,6 +937,7 @@ add("text","",1 ,m+2,"readonly","sign"  ,"lb0"+(m+2));
 	}
 	meg  = new Audio("hal9000.m4a");
 
+
 	obj = 0;
 	for (j=1; j<=n; j++) {
 	    c[j] = 0;
@@ -896,14 +946,12 @@ add("text","",1 ,m+2,"readonly","sign"  ,"lb0"+(m+2));
 	for (i=1; i<=m; i++) {
 	    b[i] = 0;
 	    a[i] = [];
-        vb[i]=0;
-        lb[i]=[];
-        ub[i]=[];
+        
 	    for (j=1; j<=n; j++) {
 		a[i][j] = 0;
 	    }
      }
-        for (i=m+1; i<=m+2; i++) {
+       /* for (i=m+1; i<=m+2; i++) {
 	    l[i] = [];
 	    u[i] = [];
 	    for (j=1; j<=n; j++) {
@@ -911,7 +959,9 @@ add("text","",1 ,m+2,"readonly","sign"  ,"lb0"+(m+2));
         u[i][j] = 0;
         
 	    }
-	}
+	}*/
+
+    
 
 toGrid();
 	
@@ -939,20 +989,22 @@ toGrid();
 	listlen = 0;
 	for (var i=0; i<100; i++) rowlist[i] = -1;
 
-	for (i=1; i<=m; i++) {
+	for (i=0; i<=m+2; i++) {
 	    // document.getElementById("w"+i).value = wlabel[i];
          
-	     document.getElementById("lb0"+i).value = lblabel[i];
+	   //  document.getElementById("lb"+i).value = 0;
          
-	     document.getElementById("ub0"+i).value = ublabel[i];
-      var wid1=  document.getElementById("lb0"+i).value.visualLength()+15;
-              var element = document.getElementById("lb0"+i);
+	   //  document.getElementById("ub"+i).value =0;
+      var wid1=  document.getElementById("lb"+0).value.visualLength()+15;
+              var element = document.getElementById("lb"+i);
                  element.style.width = wid1+"px";
-             var element1 = document.getElementById("ub0"+i);
+             var element1 = document.getElementById("ub"+i);
                  element1.style.width = wid1+"px";
+                   var element2 = document.getElementById("vb"+i);
+                 element2.style.width = wid1+"px";
     // +" ";
 	}// var wid1=  document.getElementById("lb0"+1).value.visualLength()+20;
-              var element = document.getElementById("lb0"+(m+1));
+            /*  var element = document.getElementById("lb0"+(m+1));
                  element.style.width = wid1+"px";
              var element1 = document.getElementById("ub0"+(m+1));
                  element1.style.width = wid1+"px";
@@ -965,7 +1017,7 @@ toGrid();
               var element = document.getElementById("lb0"+0);
                  element.style.width = wid1+"px";
              var element1 = document.getElementById("ub0"+0);
-                 element1.style.width = wid1+"px";
+                 element1.style.width = wid1+"px";*/
 	element = document.getElementById("obj");
         var newwid = 1;
        
@@ -1023,7 +1075,22 @@ toGrid();
 	if (listlen < 99) { listlen++; } else {listlen=0;}
 	pivot(row,col);
   }
+ 
+ function lowgotChoice(col) {
 
+	collist[listlen] = col;
+	if (listlen < 99) { listlen++; } else {listlen=0;}
+if(document.getElementById("l"+(m+1)+","+col).className=="orangeval") {document.getElementById("l"+(m+1)+","+col).className="val";}
+    else{document.getElementById("l"+(m+1)+","+col).className="orangeval";document.getElementById("u"+(m+2)+","+col).className="val";}
+  }
+
+ function upgotChoice(col) {
+
+	collist[listlen] = col;
+	if (listlen < 99) { listlen++; } else {listlen=0;}
+	if(document.getElementById("u"+(m+2)+","+col).className=="purpleval") {document.getElementById("u"+(m+2)+","+col).className="val";}
+    else{document.getElementById("u"+(m+2)+","+col).className="purpleval";document.getElementById("l"+(m+1)+","+col).className="val";}
+  }
   function ck_edits() {
         var eps = 1e-4;
         var factor;
@@ -1051,10 +1118,12 @@ toGrid();
 	  oo = document.getElementById("zstar").value;
 	  if (Math.abs(obj - oo/factor) > eps) {obj = oo/factor;}
 	}
-    /*if (method != "Klee-Minty") {
-	  bv = document.getElementById("vbasic").value;
-	  if (Math.abs(vb - bv/factor) > eps) {obj = bv/factor;}
-	}*/
+    	if (method != "Klee-Minty") {
+	  for (i=1; i<=m; i++) {
+	    vb = fracDivide(document.getElementById("vb"+i).value);
+	    if (Math.abs(vb[i] - vb/factor) > eps) {vb[i] = vb/factor;}
+	  }
+	}
   }
 
   function pivot(row,col) {
@@ -1071,8 +1140,7 @@ toGrid();
 	var basicrow;
 
 	basicrow = basics[row];
-	basics[row] = lowerbound[col];
-	lowerbound[col] = basicrow;
+	
 	
 	for (i=1; i<=m; i++) { acol[i] = a[i][col]; }
 	for (j=1; j<=n; j++) { arow[j] = a[row][j]; }
@@ -1150,14 +1218,14 @@ toGrid();
 	    c[j] = fracDivide(document.getElementById("c"+j).value);
 	}
   
-  	for (i=1; i<=m; i++) {
-  		if (b[i] < -1e-10) {
+  	for (i=1; i<=m; i++) {element=document.getElementById("vb"+i)
+  		if (element.value < -1e-10) {
   			optflag = false;
   		}
   	}
   
-  	for (j=mmn+1; j<=n; j++) {
-  		if (c[j] > 1e-10) {
+  	for (j=mmn+1; j<=n; j++) {element=document.getElementById("l"+(m+1)+","+j);element1=document.getElementById("u"+(m+2)+","+j);
+  		if ((element.className=="orangeval" && c[j] <- 1e-10) || (element1.className=="purpleval" && c[j] > 1e-10)) {
   			optflag = false;
   		}
   	}
@@ -1182,8 +1250,8 @@ toGrid();
   	var d_infeas_flag=false;
   	var p_feas_flag=true;
   
-  	for (i=1; i<=m; i++) { 
-	    b[i] = fracDivide(document.getElementById("b"+i).value);
+  	for (i=1; i<=m; i++) { element=document.getElementById("vb"+i);
+	    element.value = fracDivide(document.getElementById("vb"+i).value);
 	}
   
   	for (j=mmn+1; j<=n; j++) { 
@@ -1208,8 +1276,8 @@ toGrid();
   		    }
   		}
   		if (d_infeas_flag == true) {
-  		    for (i=1; i<=m; i++) {
-  			if (b[i] < -0.00001 && a[i][j] < 0.00001) {
+  		    for (i=1; i<=m; i++) {element=document.getElementById("vb"+i)
+  			if (element.value < -0.00001 && a[i][j] < 0.00001) {
   			    d_infeas_flag = false;
   			    break;
   			}
@@ -1239,8 +1307,8 @@ toGrid();
   	var i, j;
   	var p_infeas_flag=false;
   
-  	for (i=1; i<=m; i++) { 
-	    b[i] = fracDivide(document.getElementById("b"+i).value);
+  	for (i=1; i<=m; i++) { element=document.getElementById("vb"+i)
+	    element.value = fracDivide(document.getElementById("vb"+i).value);
 	}
   
   	for (j=mmn+1; j<=n; j++) { 
@@ -1256,8 +1324,8 @@ toGrid();
   		}
   	}
   
-  	for (i=1; i<=m; i++) {
-  	    if (b[i] < -1e-10) {
+  	for (i=1; i<=m; i++) {element=document.getElementById("vb"+i)
+  	    if (element.value < -1e-10) {
   		p_infeas_flag = true;
   		for (j=mmn+1; j<=n; j++) {
   		    if (a[i][j] >  0.00001) {
@@ -1547,18 +1615,12 @@ toGrid();
             document.getElementById("mb"+i).setAttribute("size", tmp);}
    
                 
-       // tmp1="Lowerbounduppp".length;
-        //tmp2=document.getElementById("lb0"+1).size;
-         //tmp3=document.getElementById("lb"+1).size;
-         
-           // document.getElementById("md"+3).setAttribute("size", 2*(tmp2+tmp3));    
-//document.getElementById("md"+4).setAttribute("size", tmp1);
-
-
+   
 	for (j=1; j<=n; j++) {
 	    element = document.getElementById("c"+j);
 element2 = document.getElementById("u"+(m+2)+","+j);
 element1 = document.getElementById("l"+(m+1)+","+j);
+
 	    element.value = myformat2(c[j]);
 	    if (Math.abs(c[j]) < 1e-10) { 
                   if (vis == "Dimmed")    { 
@@ -1581,17 +1643,44 @@ element1 = document.getElementById("l"+(m+1)+","+j);
                   if (document.getElementById("plus"+j) != null)
                       document.getElementById("plus"+j).className = "sign"; 
             }
-             //if ((method != "Klee-Minty" && method != "Lexicographic") || j>m) {
+             if ((method != "Klee-Minty" && method != "Lexicographic") || j>m) {
              
-	        if( (element2.style.backgroundColor=="rgb(179, 179, 255)" &&c[j]<-1e-10)||(element1.style.backgroundColor=="rgb(255, 170, 128)" &&c[j]>1e-10))
-          { element.style.backgroundColor="#FFAAFF"; 
+ if( (element2.className=="purpleval" &&c[j]<-1e-10)||(element1.className=="orangeval" &&c[j]>1e-10))
+          { element.className="pinkval"; 
                                    document.getElementById("x0,"+j).className = "var"; }
-           
-           
+           else{
+	                          if (vis == "Dimmed") {
+                                 element.className = "zeroval"; } else
+                                if (vis == "Invisible") {
+                                 element.className = "whiteval"; } else
+                                if (vis == "Visible") {
+                                 element.className = "val"; } 
+                               else
+	                       { element.className = "val"; }
+		}
 	     nnv1 += document.getElementById("l"+(m+1)+","+j).value + " \u2264" +  document.getElementById("x0,"+j).value +"\u2264 " +document.getElementById("u"+(m+2)+","+j).value ;
 	   if(j<n){nnv1 +=";  ";}
 	    
 	}
+}
+
+for (i=1;i<=n;i++) {
+		element = document.getElementById("l"+(m+1)+","+i);
+                
+if( document.getElementById("l"+(m+1)+","+i).className=="orangeval" )
+          {  document.getElementById("u"+(m+2)+","+i).className="val"}
+}
+
+for (i=1;i<=n;i++) {
+		
+		 element= document.getElementById("u"+(m+2)+","+i);
+if(  document.getElementById("u"+(m+2)+","+i).className=="purpleval" )
+          { document.getElementById("l"+(m+1)+","+i).className="val";}
+                        
+		}
+
+
+
 for (i=1; i<=m+2; i++) {
             element = document.getElementById("mb"+i); 
             if (fmt == "Integer" && maxden != 1) { 
@@ -1623,20 +1712,35 @@ for (i=1; i<=m+2; i++) {
         } else { 
                 element.value = "upperbound:    "; 
         }
+
+	var l=[];
+var u=[];
+ for (i=1; i<=n; i++)
+     {element=document.getElementById("l"+(m+1)+","+i);
+     var element1=document.getElementById("u"+(m+2)+","+i);
+     if(element.className=="orangeval")
+     {l[i]=i;}
+     if( element1.className=="purpleval"){u[i]=i;}}
+     var lf=l.filter(function(x){return x!==null;});
+     var uf=u.filter(function(x){return x!==null;});
+  
+    for (i=1; i<=m; i++){ var vbj=0; var vb=0;
+      for (j of lf) {
+       vbj+=a[i][j]*document.getElementById("l"+(m+1)+","+j).value;}
+	for (k of uf) {  vb+=a[i][k]*document.getElementById("u"+(m+2)+","+k).value;}
+document.getElementById("vb"+i).value=b[i]+vbj+vb;}
+
 	for (i=1; i<=m; i++) {
 	  if (method != "Klee-Minty") {
-            /*element = document.getElementById("md"+i); 
-            if (fmt == "Integer" && maxden != 1) { 
-                    element.value = "            "+maxden; 
-            } else { 
-                    element.value = "            "; 
-            }*/
            
             element = document.getElementById("vb"+i);  
            
-             element1 = document.getElementById("lb"+i);  
+            var element1 = document.getElementById("lb"+i);  
            
-              element2 = document.getElementById("ub"+i);  
+            var  element2 = document.getElementById("ub"+i);  
+
+		element.value = myformat2(element.value);
+
           
 	    if (element1.value*(1e-10) > element.value || element2.value*(1e-10)< element.value) { element.className = "pinkval"; } else
         if (element1.value<=element.value <=  element2.value) { 
@@ -1705,13 +1809,7 @@ for (i=1; i<=m+2; i++) {
 
 
         console.log("hello bob");
-	//if (method != "Klee-Minty") {
-	  //  element = document.getElementById("md0");   
-          //  if (fmt == "Integer" && maxden != 1) { 
-            //        element.value = "max   "+maxden+" "; 
-            //} else { 
-              //      element.value = "maximize "; 
-            //}
+	
 	  /*  element = document.getElementById("zstar"); 
             element.value = myformat2(obj);
             console.log("obj = "+obj);
