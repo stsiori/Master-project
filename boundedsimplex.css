@@ -155,6 +155,22 @@ border: none;	background-color: #FFFFAA;
 	font-size: 0.8em;
 }
 
+.orangeval {
+
+border: none;	background-color: #ffaa80;
+
+	text-align:center;
+	font-size: 0.8em;
+}
+
+.purpleval {
+
+border: none;	background-color: #b3b3ff;
+
+	text-align:center;
+	font-size: 0.8em;
+}
+
 .whiteval {
 
 border: none;	background-color: #FFFFFF;
