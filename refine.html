@@ -541,10 +541,16 @@ var colov=[];
 
 			if ( colov.indexOf("rgb(255, 170, 255)")!= -1) {  
 for (i=1; i<=m; i++){element=document.getElementById("vb"+i);
-if ( element.className==="pinkval"){
+if ( element.className==="pinkval" ){
 				for (j=1; j<=n; j++) {
-		    			document.getElementById("x"+i+","+j).className = "greenvar";
-				}}}
+		    		 var element1 =document.getElementById("x"+i+","+j);
+					var element2 =document.getElementById("u"+(m+2)+","+j);
+                    var element3 =document.getElementById("l"+(m+1)+","+j);
+                    var element4 =document.getElementById("c"+j);
+                if((element4.value > 1e-10 && element3.className=="orangeval")||(element4.value < 1e-10 && element2.className=="purpleval")){	
+                element1.className = "greenvar";
+                	}
+                }}}
 
 			}
 		
@@ -558,12 +564,13 @@ if ( element.className==="pinkval"){
 		if(element1.className==="orangeval" && c[j]>eps){ 
 				tmp = 1e+10;
 				for (i=1; i<=m; i++) {
-		  			if (a[i][j] < -eps && -b[i]/a[i][j] < tmp) {
-		    				tmp = -b[i]/a[i][j];
+                var element3=document.getElementById("vb"+i)
+		  			if (a[i][j] < -eps && -element3.value/a[i][j] < tmp) {
+		    				tmp = -element3.value/a[i][j];
 		  			}
 				}
 				for (i=1; i<=m; i++) {
-		  			if (a[i][j] < -eps && -b[i]/a[i][j] < tmp+eps) {
+		  			if (a[i][j] < -eps && -element3.value/a[i][j] < tmp+eps) {
 		    				document.getElementById("x"+i+","+j).className = "greenvar";
 		  			}
 				}
@@ -730,7 +737,7 @@ if ( element.className==="pinkval"){
 	}
 	removeElements(document.querySelectorAll("#rowStuff"+(m0+1)+" input"));
     
-	m0 = m+4; 
+	m0 = m+5; 
 
 	// fmt = "Decimal";
 	seed = 0;
@@ -1068,6 +1075,7 @@ toGrid();
 	for (i=1; i<=m; i++) {basics[i] = n+j;}
         console.log("start");
 	toGrid();
+
   }
   function gotClicked(row,col) {
 
@@ -1081,7 +1089,7 @@ toGrid();
 
 	collist[listlen] = col;
 	if (listlen < 99) { listlen++; } else {listlen=0;}
-if(document.getElementById("l"+(m+1)+","+col).className=="orangeval") {document.getElementById("l"+(m+1)+","+col).className="val";}
+if(document.getElementById("l"+(m+1)+","+col).className=="orangeval" || document.getElementById("l"+(m+1)+","+col).value=="\u221e" ||  document.getElementById("l"+(m+1)+","+col).value=="inf") {document.getElementById("l"+(m+1)+","+col).className="val";}
     else{document.getElementById("l"+(m+1)+","+col).className="orangeval";document.getElementById("u"+(m+2)+","+col).className="val";}
   }
 
@@ -1089,9 +1097,10 @@ if(document.getElementById("l"+(m+1)+","+col).className=="orangeval") {document.
 
 	collist[listlen] = col;
 	if (listlen < 99) { listlen++; } else {listlen=0;}
-	if(document.getElementById("u"+(m+2)+","+col).className=="purpleval") {document.getElementById("u"+(m+2)+","+col).className="val";}
+	if(document.getElementById("u"+(m+2)+","+col).className=="purpleval" || document.getElementById("u"+(m+2)+","+col).value=="\u221e" ||  document.getElementById("l"+(m+1)+","+col).value=="inf") {document.getElementById("u"+(m+2)+","+col).className="val";}
     else{document.getElementById("u"+(m+2)+","+col).className="purpleval";document.getElementById("l"+(m+1)+","+col).className="val";}
   }
+
   function ck_edits() {
         var eps = 1e-4;
         var factor;
@@ -1128,9 +1137,12 @@ if(document.getElementById("l"+(m+1)+","+col).className=="orangeval") {document.
   }
 
   function pivot(row,col) {
-	leaving  = document.getElementById("w"+row).value;
+		leaving  = document.getElementById("w"+row).value;
 	entering = document.getElementById("x0,"+col).value;
-
+    lbenter= document.getElementById("l"+(m+1)+","+col).value;
+     ubenter= document.getElementById("u"+(m+2)+","+col).value;
+     lbleave= document.getElementById("lb"+row).value;
+     ubleave= document.getElementById("ub"+row).value;
 	// ck_edits();
 
 	/* PIVOT HERE */
@@ -1139,32 +1151,60 @@ if(document.getElementById("l"+(m+1)+","+col).className=="orangeval") {document.
 	var arowcol;
 	var brow, ccol;
 	var basicrow;
+	 element=    document.getElementById("u"+(m+2)+","+col);
+    var element1=    document.getElementById("l"+(m+1)+","+col);
 
-	basicrow = basics[row];
+	//basicrow = basics[row];
 	
 	
 	for (i=1; i<=m; i++) { acol[i] = a[i][col]; }
 	for (j=1; j<=n; j++) { arow[j] = a[row][j]; }
 	arowcol = a[row][col];
 
-	if (arowcol == 0) {
-	    bark.play();
-	    // THIS BLINKING CODE DOES NOT WORK
+	if (arowcol == 0 && element.className=="purpleval") {
+      if(element1.value=="\u221e" || element1.value=="inf" )
+	    {bark.play();  // THIS BLINKING CODE DOES NOT WORK
 	    var element = document.getElementById("a"+row+","+col)
 	    for (j=0; j<5; j++) {
 		element.className = "pinkval";
 		wait(200);
 		element.className = "val";
 		wait(200);
-	    }
-	    return;
+	    }}
+        else {element1.className="orangeval";element.className="val"}
+	return;
 	}
+if (arowcol == 0 && element1.className=="orangeval"){
+      if(element.value=="\u221e" || element.value=="inf" )
+	    {bark.play();  // THIS BLINKING CODE DOES NOT WORK
+	    var element = document.getElementById("a"+row+","+col)
+	    for (j=0; j<5; j++) {
+		element.className = "pinkval";
+		wait(200);
+		element.className = "val";
+		wait(200);
+	    }}
+        else {element.className="purpleval";element1.className="val"}
+  return;
+}
+	   
 
 	document.getElementById("w"+row).value = entering;
-	for (i=0; i<=m; i++) {
-	     document.getElementById("x"+i+","+col).value = leaving;
-	}
+    document.getElementById("lb"+row).value = lbenter;
+     document.getElementById("ub"+row).value = ubenter;	
+for (i=0; i<=m; i++) {
+	     document.getElementById("x"+i+","+col).value = leaving;}
 
+         document.getElementById("l"+(m+1)+","+col).value = lbleave;
+	 document.getElementById("u"+(m+2)+","+col).value = ubleave;
+
+    	   
+      if((element.value=="\u221e" || element.value=="inf" ) && element.className=="purpleval")
+  	{ element1.className="orangeval";}
+
+      if((element1.value=="\u221e" || element1.value=="inf" ) && elemen1t.className=="orangeval")
+  	{ element.className="purpleval";}
+    
 	for (i=1; i<=m; i++) {
 	    for (j=1; j<=n; j++) {
 		if (i != row && j != col) {
@@ -1204,6 +1244,8 @@ if(document.getElementById("l"+(m+1)+","+col).className=="orangeval") {document.
 
         updateColLabels(col);
 	toGrid();
+	
+
   }
 
   function ck_opt()
@@ -1219,8 +1261,8 @@ if(document.getElementById("l"+(m+1)+","+col).className=="orangeval") {document.
 	    c[j] = fracDivide(document.getElementById("c"+j).value);
 	}
   
-  	for (i=1; i<=m; i++) {element=document.getElementById("vb"+i)
-  		if (element.value < -1e-10) {
+  	for (i=1; i<=m; i++) {element=document.getElementById("vb"+i);element1=document.getElementById("lb"+i);element2=document.getElementById("ub"+i);
+  		if ((element.value < 1e-10*element1.value)||(element.value > 1e-10*element2.value)) {
   			optflag = false;
   		}
   	}
@@ -1267,17 +1309,29 @@ if(document.getElementById("l"+(m+1)+","+col).className=="orangeval") {document.
   		}
   	}
   
-  	for (j=mmn+1; j<=n; j++) {
-  	    if (c[j] > 1e-10) {
+	var dl=[];
+	var du=[];
+  	for (j=mmn+1; j<=n; j++) { 
+  	    if ((document.getElementById("l"+(m+1)+","+j).className=="orangeval" && c[j] > 1e-10)||(document.getElementById("u"+(m+2)+","+j).className=="purpleval" && c[j] < -1e-10)){
   		d_infeas_flag = true;
-  		for (i=1; i<=m; i++) {
+	if (document.getElementById("l"+(m+1)+","+j).className=="orangeval" && c[j] > 1e-10){
+	for (i=1; i<=m; i++) {
   		    if (a[i][j] < -0.00001) {
   			d_infeas_flag = false;
   			break;
   		    }
-  		}
+  		}}
+       if (document.getElementById("l"+(m+1)+","+j).className=="orangeval" && c[j] > 1e-10){
+	for (i=1; i<=m; i++) {
+  		    if (a[i][j] > 0.00001) {
+  			d_infeas_flag = false;
+  			break;
+  		    }
+  		}}
+
+
   		if (d_infeas_flag == true) {
-  		    for (i=1; i<=m; i++) {element=document.getElementById("vb"+i)
+  		    for (i=1; i<=m; i++) {element=document.getElementById("vb"+i);
   			if (element.value < -0.00001 && a[i][j] < 0.00001) {
   			    d_infeas_flag = false;
   			    break;
@@ -1325,8 +1379,8 @@ if(document.getElementById("l"+(m+1)+","+col).className=="orangeval") {document.
   		}
   	}
   
-  	for (i=1; i<=m; i++) {element=document.getElementById("vb"+i)
-  	    if (element.value < -1e-10) {
+  	for (i=1; i<=m; i++) {element=document.getElementById("vb"+i);var element1= document.getElementById("lb"+i); element2=document.getElementById("ub"+i);
+  	    if ((element.value < 1e-10*element1.value)||(element.value > 1e-10*element2.value)) {
   		p_infeas_flag = true;
   		for (j=mmn+1; j<=n; j++) {
   		    if (a[i][j] >  0.00001) {
@@ -1548,6 +1602,7 @@ if(document.getElementById("l"+(m+1)+","+col).className=="orangeval") {document.
         }
   }
 
+
   function toGrid() {
 	var element;
 	var nnv = "      ";
@@ -1680,7 +1735,22 @@ if(  document.getElementById("u"+(m+2)+","+i).className=="purpleval" )
                         
 		}
 
-
+	var l=[];
+var u=[];
+ for (i=1; i<=n; i++)
+     {element=document.getElementById("l"+(m+1)+","+i);
+     var element1=document.getElementById("u"+(m+2)+","+i);
+     if(element.className=="orangeval")
+     {l[i]=i;}
+     if( element1.className=="purpleval"){u[i]=i;}}
+     var lf=l.filter(function(x){return x!==null;});
+     var uf=u.filter(function(x){return x!==null;});
+  
+    for (i=1; i<=m; i++){ var vbj=0; var vb=0;
+      for (j of lf) {
+       vbj+=a[i][j]*document.getElementById("l"+(m+1)+","+j).value;}
+	for (k of uf) {  vb+=a[i][k]*document.getElementById("u"+(m+2)+","+k).value;}
+document.getElementById("vb"+i).value=b[i]+vbj+vb;}
 
 for (i=1; i<=m+2; i++) {
             element = document.getElementById("mb"+i); 
@@ -1713,23 +1783,6 @@ for (i=1; i<=m+2; i++) {
         } else { 
                 element.value = "upperbound:    "; 
         }
-
-	var l=[];
-var u=[];
- for (i=1; i<=n; i++)
-     {element=document.getElementById("l"+(m+1)+","+i);
-     var element1=document.getElementById("u"+(m+2)+","+i);
-     if(element.className=="orangeval")
-     {l[i]=i;}
-     if( element1.className=="purpleval"){u[i]=i;}}
-     var lf=l.filter(function(x){return x!==null;});
-     var uf=u.filter(function(x){return x!==null;});
-  
-    for (i=1; i<=m; i++){ var vbj=0; var vb=0;
-      for (j of lf) {
-       vbj+=a[i][j]*document.getElementById("l"+(m+1)+","+j).value;}
-	for (k of uf) {  vb+=a[i][k]*document.getElementById("u"+(m+2)+","+k).value;}
-document.getElementById("vb"+i).value=b[i]+vbj+vb;}
 
 	for (i=1; i<=m; i++) {
 	  if (method != "Klee-Minty") {
@@ -1831,6 +1884,7 @@ document.getElementById("vb"+i).value=b[i]+vbj+vb;}
 	    element.value = nnv1;
 	    element.style.color = "gray";
 	}
+
   }
 
   function fillArc(x,y,r,theta0, theta1)
