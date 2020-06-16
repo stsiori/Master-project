@@ -16,6 +16,11 @@
   var a=[];
   var b=[];
   var c=[];
+  var l=[];
+  var u=[];
+  var vb=[];
+  var lb=[];
+  var ub=[];
   var basics=[];
 var upperbound=[];
 var lowerbound=[];
@@ -87,18 +92,10 @@ var lowerbound=[];
 	  if (rw == "readonly") { 
 	      element.setAttribute("readonly","");
 	  }
-          /*
-          if (type == "text") {
-              element.setAttribute("onfocus", "makeitshow(id)");
-              element.setAttribute("onblur", "toGrid()");
-          }
-          */
-         if (type == "text" && clas != "sign" && clas != "var") {
-              element.setAttribute("onmouseover", "ck_edits(); toGrid()");
-              element.setAttribute("onmouseleave", "ck_edits(); toGrid()");
-  //element.setAttribute("onmouseover", "makeitshow(id)");
-            
-          }
+        // if (type == "text" && clas != "sign" && clas != "var") {
+              //element.setAttribute("onmouseover", "ck_edits(); toGrid()");
+             // element.setAttribute("onmouseleave", "ck_edits(); toGrid()");
+         // }
   
   
 	  var rowElement = document.getElementById("rowStuff"+row);
@@ -108,13 +105,7 @@ var lowerbound=[];
   
   }
 
- /* function makeitshow(id) {
-          var element;
-          element = document.getElementById(id);
-          if (element != null && element.value==0) {
-                  element.className = "val"; 
-          }
-  } */
+
 
   function removeElements(elements) {
 	  for (var i=0; i<elements.length; i++) {
@@ -128,39 +119,13 @@ var lowerbound=[];
 	    m=18;
             document.getElementById("m").value = m;
 	  }
-	/*  if (method == "Klee-Minty") {
-            document.getElementById("n").value = m;
-	    n = 2*m;
-	  }
-	  if (method == "Lexicographic") {
-	    n = 1.0*document.getElementById("n").value;
-	  }*/
+	
 	  start();
   }
   function setn(v) { 
 	  n0 = n;
 	  n = 1*v.valueOf(); 
-	 /* if (method == "Klee-Minty") {
-            document.getElementById("m").value = n;
-	    m = n;
-	    n = 2*n;
-	  }*/
-	  /*
-	  if (method == "Lexicographic") {
-	    n = m+n;
-	  }
-	  */
 	  start();
-
-	  /*if (n==2 || (n==3 && method == "Primal w/ x0" )) {
-	     plotcanvas = document.getElementById("plot2d");
-	     ctx = plotcanvas.getContext('2d');
-	     ctx.canvas.height = "400";
-	     ctx.canvas.width = "400";
-	     // ctx.font = "12px Helvetica, sans-serif";
-	     ctx.font = "12px Letter Gothic Std, sans-serif";
-	     // ctx.font = "12px Arial, sans-serif";
-	  } else {*/
 	     plotcanvas = document.getElementById("plot2d");
 	     ctx = plotcanvas.getContext('2d');
 	     ctx.canvas.height = "0";
@@ -202,11 +167,11 @@ var lowerbound=[];
 
 	  if (v.valueOf() == "--") {
 	      start();
-	      for (j=1; j<=n; j++) { c[j] = 0; }
+	      for (j=1; j<=n; j++) { c[j] = 0;l[j] = 0;u[j]=0; }
 	      for (i=1; i<=m; i++) {
-	         for (j=1; j<=n; j++) { a[i][j] = 0; }
+	         for (j=1; j<=n; j++) { a[i][j] = 0;}
 	         b[i] = 0; vb[i]=0; lb[i]=0;ub[i]=0;}
-           for (j=1; j<=n; j++) { l[m+1][j] = 0;u[m+2][j]=0 }  
+          
              
 	  } else {}
 	 
@@ -220,48 +185,7 @@ var lowerbound=[];
   function pxx(x) { return 11*x/plotwid;  }
   function pxy(y) { return 11*y/plotwid;  }
 
-  function reset() {
-	var elements;
-	elements = document.querySelectorAll("#rowStuff"+0+" input");
-	for (j=1; j<=n; j++) {
-	    c[j] = ""
-	    elements[3*j+1].value = ""+c[j];
-	    elements[3*j+1].className = "val"; 
-	}
-	for (i=1; i<=m; i++) {
-	    elements = document.querySelectorAll("#rowStuff"+i+" input");
-	    lb[i] = ""
-	    elements[2].value = ""+lb[i];
-	    elements[2].className = "val"; 
-         ub[i] = ""
-	    elements[6].value = ""+ub[i];
-	    elements[6].className = "val"; 
-         b[i] = ""
-	    elements[10].value = ""+b[i];
-	    elements[10].className = "val"; 
-	    a[i] = [];
-	    for (j=1; j<=n; j++) {
-	        a[i][j] = ""
-	         elements[(3*j+1)+8].value = ""+a[i][j];
-	        elements[(3*j+1)+8].className = "val"; 
-          
-	    }
-        l[m+1]=[];
-        u[m+2]=[];
-        for (j=1; j<=n; j++){
-          l[m+1][j] = ""
-	        elements[3*j].value = ""+l[i][j];
-	        elements[3*j].className = "val"; 
-             u[m+2][j] = ""
-	        elements[3*j].value = ""+u[i][j];
-          }
-	        elements[(3*j+1)+8].className = "val"; 
-	}
-
-	listlen = 0;
-	for (var i=0; i<100; i++) rowlist[i] = -1;
-  } 
-
+ 
    function genrand() {
 	var xinit = [];
 	var winit = [];
@@ -286,25 +210,19 @@ for(i=1;i<=2;i++){
 
 	var scale, shift;
 	scale = (m+2)+n; shift = Math.floor(scale/2); 
-    for(j=1;j<=n;j++){tmp = document.getElementById("l"+(m+1)+","+j);
-    tmp.value=-1* Math.floor(scale*myrand());
+    for(j=1;j<=n;j++){
+    l[j]=-1* Math.floor(scale*myrand());
+    u[j]=Math.floor(scale*myrand());
     }
-    for(j=1;j<=n;j++){tmp = document.getElementById("u"+(m+2)+","+j);
-    tmp.value= Math.floor(scale*myrand());
-    }
-	
-	    for (i=1; i<=m; i++) {
+    
+	   for (i=1; i<=m; i++) {
 		for (j=1; j<=n; j++) {
 		    a[i][j]  = Math.floor(scale*myrand())-shift;
 		    a[i][j] += Math.floor(scale*myrand())-shift;
 		    a[i][j] += Math.floor(scale*myrand())-shift;
 		}
 	    }
-       
-		
-		
-	   
-	
+ 
 	if ( myrand() < 0.3 ) { scale = (m+n); shift = Math.floor(scale/2); }
 	                 else { scale = (m+n)/2; shift = 0; }
 	if (method != "Dual") {
@@ -336,25 +254,10 @@ for(i=1;i<=2;i++){
 	}
     
    for (j=1; j<=m; j++) {
-		 document.getElementById("lb"+j).value = 0;
-         for (i=1; i<=n; i++) {
-		    document.getElementById("lb"+j).value =0;
-		}
-        /* if ((method == "Primal" && seed0 <  10000) || 
-		    (method == "Dual"   && seed0 >= 10000)) {
-		   document.getElementById("lb"+j).value  = Math.floor(((m+2)+n)*myrand());
-		document.getElementById("lb"+j).value*=-1;}*/
-		}
+		lb[j] = 0;}
         for (j=1; j<=m; j++) {
-		 document.getElementById("ub"+j).value = "\u221e";}
-      /*   for (i=1; i<=n; i++) {
-		    document.getElementById("ub"+j).value =&#8734;
-		}
-         if ((method == "Primal" && seed0 <  10000) || 
-		    (method == "Dual"   && seed0 >= 10000)) {
-		   document.getElementById("ub"+j).value  = Math.floor(((m+2)+n)*myrand());
-		}}*/
-       
+		ub[j] = Infinity;}
+
 	
 	
 	for (i=1; i<=m; i++) {
@@ -397,82 +300,30 @@ for(i=1;i<=2;i++){
 
 	// ==================================================
 
-	/*obj = 0;
-
-	listlen = 0;
-	for (var i=0; i<100; i++) rowlist[i] = -1;
-
-	for (i=1; i<=m; i++) {
-	     document.getElementById("w"+i).value = wlabel[i];
-         // document.getElementById("lb0"+i).value = lblabel[i];
-          // document.getElementById("ub0"+i).value = ublabel[i]// +" ";
-	}
-	element = document.getElementById("obj");
-        var newwid = 1;
-         var newwid1 = 1;
-          var newwid2 = 1;
-	if (element != null) { newwid = Math.max(newwid, element.value.visualLength());}
-	for (i=1; i<=m; i++) {
-	    var element = document.getElementById("w"+i);
-       // var element1 =  document.getElementById("lb0"+i);
-        
-       // var element2 =  document.getElementById("ub0"+i);
-	    newwid = Math.max(newwid, element.value.visualLength());
-        
-	    //newwid1 = Math.max(newwid1, element1.value.visualLength());
-        
-	   // newwid2 = Math.max(newwid2, element2.value.visualLength());
-	}
-        newwid += 10;
-        newwid2 += 10;
-        newwid1  += 10;
-	var element = document.getElementById("obj");
-	if (element != null) { element.style.width = newwid+"px";}
-	for (i=1; i<=m; i++) {
-	    var element = document.getElementById("w"+i);
-         //var element1 =  document.getElementById("lb0"+i);
-        
-        //var element2 =  document.getElementById("ub0"+i);
-	    element.style.width = newwid+"px";
-        // element2.style.width = newwid2+"px";
-         //element1.style.width = newwid1+"px";
-      
-	}
-	for (j=1; j<=n; j++) {
-	     document.getElementById("x0,"+j).value = xlabel[j];
-         //document.getElementById("l0"+j).value = xlabel[j];
-         //document.getElementById("u0"+j).value = xlabel[j];
-        // +" ";
-	     var wid = document.getElementById("x0,"+j).value.visualLength() + 10;
-         //var wid1 = document.getElementById("l0"+j).value.visualLength()+10;
- // var wid2 = document.getElementById("u0"+j).value.visualLength()+10;
-             for (i=0; i<=m; i++) {
-	         document.getElementById("x"+i+","+j).value = xlabel[j];
-            // +" ";
-                 var element = document.getElementById("x"+i+","+j);
-   
-                 element.style.width = wid+"px";
-               
-                 
-             }
-  //            document.getElementById("l0"+j).value = xlabel[j];
-    //         document.getElementById("u0"+j).value = xlabel[j];
-      //       var element1 = document.getElementById("l0"+j);
-        //          var element2 = document.getElementById("u0"+j);
-          //           element1.style.width = wid1+"px";
-            //     element2.style.width = wid2+"px";
-	}*/
-
-		if(n>2){
-    for (j=1; j<=2; j++) {upperbound[j] = j;}
-    for(j=3;j<=n;j++){lowerbound[j]=j;}
-    }else if(n==2){upperbound[1]=1;lowerbound[2]=2;}else{upperbound[1]=1;}
-	for (i=1; i<=m; i++) {basics[i] = n+j;}
-
+for(i=1;i<=m;i++){vb[i]=vbval(i);}
 	toGrid();
 
   } 
 
+function vbval(i){
+var uz=[];var lz=[];
+ for (j=1; j<=n; j++)
+     { element=document.getElementById("l"+(m+1)+","+j);
+       var element1=document.getElementById("u"+(m+2)+","+j);
+       if(element.className=="orangeval")
+          {lz[j]=j;}
+       if( element1.className=="purpleval")
+          {uz[j]=j;}
+     }     
+var uf=uz.filter(x=>x!=null);
+var lf=lz.filter(x=>x!=null);
+var vbj=0; var vb=0;
+       for (j of lf) {
+            vbj+=a[i][j]*l[j];}
+       for (k of uf) {  
+            vb+=a[i][k]*u[k];}
+return b[i]+vbj+vb;
+}
   function Undo() {
 	var row, col;
 
@@ -482,49 +333,17 @@ for(i=1;i<=2;i++){
 	if (row != -1) {
 		pivot(row,col);
 	}
-if (row != -1){
+if (col!= -1){
 lowgotChoice(col);}
-if (row != -1){upgotChoice(col);}
+if (col != -1){upgotChoice(col);}
+
 
   }
 
    function Hint() {
 	var tmp, eps=1e-6;
 
-	/*if (method == "Primal w/ x0") {
-	    if (listlen == 0) {
-		tmp = 1e+10;
-		for (i=1; i<=m; i++) {
-        
-		  if (b[i] < tmp) {
-		    tmp = b[i];
-		  }
-		}
-		for (i=1; i<=m; i++) {
-		  if (tmp < -eps && b[i] < tmp+eps) {
-		    document.getElementById("x"+i+","+n).className = "greenvar";
-		  }
-		}
-	    } else {
-	      for (j=1; j<=n; j++) {
-	        if (c[j] > eps) {
-		  tmp = 1e+10;
-		  for (i=1; i<=m; i++) {
-		    if (a[i][j] < -eps && -b[i]/a[i][j] < tmp) {
-		      tmp = -b[i]/a[i][j];
-		    }
-		  }
-		  for (i=1; i<=m; i++) {
-		    if (a[i][j] < -eps && -b[i]/a[i][j] < tmp+eps) {
-		      document.getElementById("x"+i+","+j).className = "greenvar";
-		    }
-		  }
-	        }
-	      }
-	    }
-	}
-	else*/ 
-
+	
 if (method == "Primal") {
 var colov=[];
 	
@@ -546,8 +365,8 @@ if ( element.className==="pinkval" ){
 		    		 var element1 =document.getElementById("x"+i+","+j);
 					var element2 =document.getElementById("u"+(m+2)+","+j);
                     var element3 =document.getElementById("l"+(m+1)+","+j);
-                    var element4 =document.getElementById("c"+j);
-                if((element4.value > 1e-10 && element3.className=="orangeval")||(element4.value < 1e-10 && element2.className=="purpleval")){	
+    
+                if((c[j] > 1e-10 && l[j]=="orangeval")||(c[j] < 1e-10 && element2.className=="purpleval")){	
                 element1.className = "greenvar";
                 	}
                 }}}
@@ -556,21 +375,17 @@ if ( element.className==="pinkval" ){
 		
 	else
 	{for (j=1; j<=n; j++) {
-			element=document.getElementById("c"+j);
         		var element1=document.getElementById("l"+(m+1)+","+j);
        			var element2=document.getElementById("u"+(m+2)+","+j);
-
-
 		if(element1.className==="orangeval" && c[j]>eps){ 
 				tmp = 1e+10;
 				for (i=1; i<=m; i++) {
-                var element3=document.getElementById("vb"+i)
-		  			if (a[i][j] < -eps && -element3.value/a[i][j] < tmp) {
-		    				tmp = -element3.value/a[i][j];
+		  			if (a[i][j] < -eps && -vb[i]/a[i][j] < tmp) {
+		    				tmp = -vb[i]/a[i][j];
 		  			}
 				}
 				for (i=1; i<=m; i++) {
-		  			if (a[i][j] < -eps && -element3.value/a[i][j] < tmp+eps) {
+		  			if (a[i][j] < -eps && -vb[i]/a[i][j] < tmp+eps) {
 		    				document.getElementById("x"+i+","+j).className = "greenvar";
 		  			}
 				}
@@ -578,12 +393,12 @@ if ( element.className==="pinkval" ){
 			if(element2.className==="purpleval" && c[j]<-eps){
 				tmp = 1e+10;
 				for (i=1; i<=m; i++) {
-		  			if (a[i][j] > eps && b[i]/a[i][j] < tmp) {
-		   				tmp = b[i]/a[i][j];
+		  			if (a[i][j] > eps && vb[i]/a[i][j] < tmp) {
+		   				tmp = vb[i]/a[i][j];
 		  				}
 					}
 				for (i=1; i<=m; i++) {
-		  			if (a[i][j] > eps && b[i]/a[i][j] < tmp+eps) {
+		  			if (a[i][j] > eps && vb[i]/a[i][j] < tmp+eps) {
 		    				document.getElementById("x"+i+","+j).className = "greenvar";
 		  			}
 				}
@@ -608,36 +423,6 @@ if ( element.className==="pinkval" ){
 		}
 		for (j=1; j<=n; j++) {
 		  if (a[i][j] > eps && -c[j]/a[i][j] < tmp+eps) {
-		    document.getElementById("x"+i+","+j).className = "greenvar";
-		  }
-		}
-	      }
-	    }
-	}
-	else if (method == "Lexicographic" || method == "Klee-Minty") {
-	    var eps10 = 1e-20;
-	    var e = [], be = [];
-	    if (method == "Lexicographic") {factor = 1e-4;} 
-	                              else {factor = 1e+2;}
-	    e[1] = factor;
-	    for (i=2; i<=m; i++) { e[i] = factor * e[i-1]; }
-	    for (i=1; i<=m; i++) {
-	      be[i] = b[i];
-	      for (ii=1; ii<=m; ii++) {
-		be[i] -= a[i][ii]*e[ii];
-	      }
-	      if (be[i] < -eps10) { return; }
-	    }
-	    for (j=mmn+1; j<=n; j++) {
-	      if (c[j] > eps10) {
-		tmp = 1e+100;
-		for (i=1; i<=m; i++) {
-		  if (a[i][j] < -eps && -be[i]/a[i][j] < tmp) {
-		    tmp = -be[i]/a[i][j];
-		  }
-		}
-		for (i=1; i<=m; i++) {
-		  if (a[i][j] < -eps && -be[i]/a[i][j] <= tmp+eps10) {
 		    document.getElementById("x"+i+","+j).className = "greenvar";
 		  }
 		}
@@ -737,7 +522,7 @@ if ( element.className==="pinkval" ){
 	}
 	removeElements(document.querySelectorAll("#rowStuff"+(m0+1)+" input"));
     
-	m0 = m+5; 
+	m0 = m+7; 
 
 	// fmt = "Decimal";
 	seed = 0;
@@ -750,8 +535,6 @@ if ( element.className==="pinkval" ){
 	if (method == "Primal") {
             for (j=1; j<=n; j++) { xlabel[j] = "x"+sub[j]; }
             for (i=1; i<=m; i++) { wlabel[i] = "w"+sub[i]; }
-            for (i=1; i<=n; i++) { llabel[i] = "x"+sub[i]; }
-            for (i=1; i<=n; i++) { ulabel[i] = "x"+sub[i]; }
 	}
 	
 	
@@ -763,7 +546,7 @@ if ( element.className==="pinkval" ){
 
         document.getElementById("md0").style.textAlign = "right";
       
-	add("text","" +zlabel+ " ",1,0,"readonly","var"   ,"obj"   );
+	add("text","" +zlabel+ " ",1,0,"readonly","whiteval"   ,"obj"   );
     document.getElementById("obj").style.textAlign = "center";
 	add("text"," = "     ,3,0,"readonly","equals","e0"      );
 	
@@ -781,7 +564,7 @@ if ( element.className==="pinkval" ){
           
         
 	    element = document.getElementById("x0,"+j);
-           element.style.backgroundColor="#ebebe0";
+           
 	    element.setAttribute("onchange","updateColLabels("+j+")");
 	}add("text","  "    ,1 ,0,"readonly","sign","e"  );
          add("button"  ,"vb"           ,1 ,0,"readonly","butvar" ,"vb"+0 );
@@ -802,7 +585,7 @@ add("button","lb",1 ,0,"","butvar"  ,"lb"+0);
             document.getElementById("mb"+i).style.textAlign = "right";
      
     
-	    add("text",wlabel[i],1 ,i,"","var"   ,"w"+i);   
+	    add("text",wlabel[i],1 ,i,"","whiteval"   ,"w"+i);   
 	    element = document.getElementById("w"+i);
         element.style.textAlign = "center";
 	    element.setAttribute("onchange","updateRowLabel("+i+")");
@@ -829,7 +612,6 @@ add("text","0",1 ,i,"","val"   ,"lb"+i);
    
      add("text","0",1 ,i,"","val"   ,"ub"+i);
 
-tmp.style.textAlign="center";
       add("text"," "    ,1 ,i,"readonly","sign","e"  );
   
           element = document.createElement("br");
@@ -863,7 +645,7 @@ tmp.style.textAlign="center";
                   
 	            add("text"  ,"0"           ,5,m+1,""        ,"val"   ,"l"+(m+1)+","+j);
                     
-		    add("button",llabel[j]+"",3,m+1,"","butvar"   ,"x"+(m+1)+","+j);
+		    add("button",xlabel[j]+"",3,m+1,"","butvar"   ,"x"+(m+1)+","+j);
 		
 	    } add("text","  "    ,1 ,m+1,"readonly","sign","e"  );
          add("text"  ,""           ,1 ,m+1,"readonly","sign" ,"vb"+(m+1) );
@@ -871,10 +653,7 @@ tmp.style.textAlign="center";
 add("text","",1 ,m+1,"readonly","sign"  ,"lb"+(m+1));
      add("text",""       ,1 ,m+1,"readonly","sign" ,"e"  );
    
-     for (j=1; j<=n; j++) {
-	        var element = document.getElementById("x"+(m+1)+","+j);
-	        element.setAttribute("onclick","lowgotChoice("+j+")");
-	    }
+     
    
      add("text","",1 ,m+1,"readonly","sign" ,"ub"+(m+1));
       add("text"," "    ,1 ,m+1,"readonly","sign","e" );
@@ -894,7 +673,7 @@ add("text","",1 ,m+1,"readonly","sign"  ,"lb"+(m+1));
                   
 	            add("text"  ,"0"           ,5,m+2,""        ,"val"   ,"u"+(m+2)+","+j);
                   
-		    add("button",ulabel[j]+"","",m+2,"","butvar"   ,"x"+(m+2)+","+j);
+		    add("button",xlabel[j]+"","",m+2,"","butvar"   ,"x"+(m+2)+","+j);
 		
 	    } add("text","  "    ,1 ,m+2,"readonly","sign","e"  );
          add("text"  ,""           ,1 ,m+2,"readonly","sign" ,"vb"+(m+2) );
@@ -915,8 +694,8 @@ add("text","",1 ,m+2,"readonly","sign"  ,"lb"+(m+2));
 	    rowElement.appendChild(element);
 
     
-	add("button", "", 80, m+3, "readonly", "var", "basicvars");
-	add("button", "", 80, m+4, "readonly", "var", "nonbasicvars");
+	add("button", "", 80, m+3, "readonly", "whiteval", "basicvars");
+	add("button", "", 80, m+4, "readonly", "whiteval", "nonbasicvars");
 	for (i=1; i<=m; i++) {
 	    for (j=1; j<=n; j++) {
 	        var element = document.getElementById("x"+i+","+j);
@@ -935,60 +714,56 @@ add("text","",1 ,m+2,"readonly","sign"  ,"lb"+(m+2));
 	        element.setAttribute("onclick","upgotChoice("+j+")");
 	    }
 	
-
+ for (j=1; j<=m; j++) {
+	        var element = document.getElementById("ub"+j);
+	        element.setAttribute("onclick","ubgotChoice("+j+")");
+	    }
+	
+ for (j=1; j<=m; j++) {
+	        var element = document.getElementById("lb"+j);
+	        element.setAttribute("onclick","lbgotChoice("+j+")");
+	    }
+	
+ for (j=1; j<=n; j++) {
+	        var element = document.getElementById("x0,"+j);
+	        element.setAttribute("onclick","entergotChoice("+j+")");
+	    }
 	
 	if (Math.random() <= 0.5) {
-	    bark = new Audio("i-dont-think-so.m4a");
+	    bark = new Audio("0267.wav");
 	} else {
 	    bark = new Audio("apprentice_fired.m4a");
 	}
 	meg  = new Audio("hal9000.m4a");
 
 
+
 	obj = 0;
 	for (j=1; j<=n; j++) {
 	    c[j] = 0;
-	   /* if (method == "Primal w/ x0") c[n] = -1;*/
 	}
 	for (i=1; i<=m; i++) {
 	    b[i] = 0;
 	    a[i] = [];
+      vb[i]=0;
+
+        lb[i]=0;
+        ub[i]=0;
+      
         
 	    for (j=1; j<=n; j++) {
 		a[i][j] = 0;
-	    }
-     }
-       /* for (i=m+1; i<=m+2; i++) {
-	    l[i] = [];
-	    u[i] = [];
-	    for (j=1; j<=n; j++) {
-		l[i][j] = 0;
-        u[i][j] = 0;
+        l[j]=0;
+        u[j]=0;
         
 	    }
-	}*/
+     }
+     
 
     
 
 toGrid();
 	
-	if(n>2){
-    for (j=1; j<=2; j++) {upperbound[j] = j;}
-    for(j=3;j<=n;j++){lowerbound[j]=j;}
-    }else if(n==2){upperbound[1]=1;lowerbound[2]=2;}else{upperbound[1]=1;}
-	for (i=1; i<=m; i++) {basics[i] = n+j;}
-
-        if (first_call == true) {
-           first_call = false;
-           var query = window.location.search.substring(1); // the 1 strips off the ? character
-           var vars = query.split("&");
-           for (var i=0;i<vars.length;i++) {
-               var pair = vars[i].split("=");
-               if (pair[0] == "example") {
-                  setExercise(pair[1]);
-               }
-           }
-        }
 
 
         // ==================================================
@@ -997,65 +772,28 @@ toGrid();
 	for (var i=0; i<100; i++) rowlist[i] = -1;
 
 	for (i=0; i<=m+2; i++) {
-	    // document.getElementById("w"+i).value = wlabel[i];
-         
-	   //  document.getElementById("lb"+i).value = 0;
-         
-	   //  document.getElementById("ub"+i).value =0;
- var wid1=  document.getElementById("lb"+0).value.visualLength()+15;
-       var wid2=  document.getElementById("vb"+0).value.visualLength()+30;
-              var element = document.getElementById("lb"+i);
+
+	 var wid1=  document.getElementById("lb"+0).value.visualLength()+15;
+         var wid2=  document.getElementById("vb"+0).value.visualLength()+30;
+         var element = document.getElementById("lb"+i);
                  element.style.width = wid1+"px";
              var element1 = document.getElementById("ub"+i);
                  element1.style.width = wid1+"px";
                    var element2 = document.getElementById("vb"+i);
                  element2.style.width = wid2+"px";
-    // +" ";
-	}// var wid1=  document.getElementById("lb0"+1).value.visualLength()+20;
-            /*  var element = document.getElementById("lb0"+(m+1));
-                 element.style.width = wid1+"px";
-             var element1 = document.getElementById("ub0"+(m+1));
-                 element1.style.width = wid1+"px";
-     
-              var element = document.getElementById("lb0"+(m+2));
-                 element.style.width = wid1+"px";
-             var element1 = document.getElementById("ub0"+(m+2));
-                 element1.style.width = wid1+"px";
-              
-              var element = document.getElementById("lb0"+0);
-                 element.style.width = wid1+"px";
-             var element1 = document.getElementById("ub0"+0);
-                 element1.style.width = wid1+"px";*/
+	}
+           
 	element = document.getElementById("obj");
         var newwid = 1;
        
-	/*if (element != null) { newwid = Math.max(newwid, element.value.visualLength());}
-	for (i=1; i<=m; i++) {
-	    var element = document.getElementById("w"+i);
-	    newwid = Math.max(newwid, element.value.visualLength());
-        var element1 = document.getElementById("lb0"+i);
-	    newwid = Math.max(newwid, element1.value.visualLength());
-        var element2 = document.getElementById("ub0"+i);
-	    newwid = Math.max(newwid, element2.value.visualLength());
-	}*/
         newwid += 10;
-	/*var element = document.getElementById("obj");
-	if (element != null) { element.style.width = newwid+"px";}
-	for (i=1; i<=m; i++) {
-	    var element = document.getElementById("w"+i);
-	    element1.style.width = newwid+"px";
-        var element1 = document.getElementById("lb0"+i);
-	    element2.style.width = newwid+"px";
-        var element2 = document.getElementById("ub0"+i);
-	    element1.style.width = newwid+"px";
-       
-	}*/
+	
 	for (j=1; j<=n; j++) {
 	     document.getElementById("x0,"+j).value = xlabel[j];
 	     document.getElementById("x"+(m+1)+","+j).value = xlabel[j];
          
 	     document.getElementById("x"+(m+2)+","+j).value = xlabel[j];
-         // +" ";
+       
 	     var wid = document.getElementById("x"+(m+1)+","+j).value.visualLength()+15;
             
              for (i=0; i<=m+2; i++) {
@@ -1067,16 +805,12 @@ toGrid();
              }
               
 	}
-
-		if(n>2){
-    for (j=1; j<=2; j++) {upperbound[j] = j;}
-    for(j=3;j<=n;j++){lowerbound[j]=j;}
-    }else if(n==2){upperbound[1]=1;lowerbound[2]=2;}else{upperbound[1]=1;}
-	for (i=1; i<=m; i++) {basics[i] = n+j;}
-        console.log("start");
+       
+	console.log("start");
 	toGrid();
 
   }
+  
   function gotClicked(row,col) {
 
 	rowlist[listlen] = row;
@@ -1089,17 +823,108 @@ toGrid();
 
 	collist[listlen] = col;
 	if (listlen < 99) { listlen++; } else {listlen=0;}
-if(document.getElementById("l"+(m+1)+","+col).className=="orangeval" || document.getElementById("l"+(m+1)+","+col).value=="\u221e" ||  document.getElementById("l"+(m+1)+","+col).value=="inf") {document.getElementById("l"+(m+1)+","+col).className="val";}
+//if(l[col]==-Infinity){alert("Choose a finite bound :) ");}
+if(document.getElementById("l"+(m+1)+","+col).className=="orangeval"||l[col]==-Infinity ) {document.getElementById("l"+(m+1)+","+col).className="val";}
     else{document.getElementById("l"+(m+1)+","+col).className="orangeval";document.getElementById("u"+(m+2)+","+col).className="val";}
-  }
+toGrid();}
 
  function upgotChoice(col) {
 
 	collist[listlen] = col;
 	if (listlen < 99) { listlen++; } else {listlen=0;}
-	if(document.getElementById("u"+(m+2)+","+col).className=="purpleval" || document.getElementById("u"+(m+2)+","+col).value=="\u221e" ||  document.getElementById("l"+(m+1)+","+col).value=="inf") {document.getElementById("u"+(m+2)+","+col).className="val";}
+	
+//if(u[col]==Infinity){alert("Choose a finite bound :) ");}
+    if(document.getElementById("u"+(m+2)+","+col).className=="purpleval"||u[col]==Infinity ) {document.getElementById("u"+(m+2)+","+col).className="val";}
     else{document.getElementById("u"+(m+2)+","+col).className="purpleval";document.getElementById("l"+(m+1)+","+col).className="val";}
-  }
+toGrid();}
+
+/*function entergotChoice(col) {
+	collist[listlen] = col;
+	u=Array.from(Array(n), (_, i) => i + 1);
+	if (listlen < 99) { listlen++; } else {listlen=0;}
+        colf=u.filter(x=>x!=col);
+	var yel=[];
+for(j of colf){if(document.getElementById("x0,"+j).className=="yellowval"){yel.push(j);}}
+
+if(document.getElementById("x0,"+col).className=="yellowval"){document.getElementById("x0,"+col).className="var"}
+else{if(yel.length!=0 ) {for (j of yel){document.getElementById("x0,"+j).className="var";document.getElementById("x0,"+col).className="yellowval";}}
+    else{document.getElementById("x0,"+col).className="yellowval";}}
+
+  }*/
+function lbgotChoice(row) {
+
+	rowlist[listlen] = row;
+	if (listlen < 99) { listlen++; } else {listlen=0;}
+var u1=Array.from(Array(m), (_, i) => i + 1);	var yel=[];
+        rowf=u1.filter(x=>x!=1);
+for(j of rowf){if(document.getElementById("lb"+j).className=="yellowval"){yel.push(j);}}
+
+//for(j of rowf){if(document.getElementById("ub"+j).className=="yellowval"){yel.push(j);}}
+
+//if(ub[row]==Infinity){alert("Choose a finite bound :) ");}
+if((document.getElementById("lb"+row).className=="yellowval" )||(lb[row]==-Infinity)){document.getElementById("lb"+row).className="val"}
+else{if( (yel.length!=0) || (document.getElementById("ub"+row).className=="yellowval") ||( ub[row]==Infinity )) {for (j of yel){document.getElementById("lb"+j).className="val";}document.getElementById("lb"+row).className="yellowval";document.getElementById("ub"+row).className="val";}
+    else{document.getElementById("lb"+row).className="yellowval";}
+}
+
+for(j=1;j<=n;j++){
+	if((document.getElementById("x0,"+j).className=="yellowval")){
+		 pivot(row,j);
+			
+		 }
+	}
+}
+
+
+/*setTimeout(lbgotChoice,200);*/
+function ubgotChoice(row) {
+
+	rowlist[listlen] = row;
+	if (listlen < 99) { listlen++; } else {listlen=0;}
+var u1=Array.from(Array(m), (_, i) => i + 1);	var yel=[];
+        rowf=u1.filter(x=>x!=1);
+for(j of rowf){if(document.getElementById("ub"+j).className=="yellowval"){yel.push(j);}}
+
+//for(j of rowf){if(document.getElementById("ub"+j).className=="yellowval"){yel.push(j);}}
+
+//if(ub[row]==Infinity){alert("Choose a finite bound :) ");}
+if((document.getElementById("ub"+row).className=="yellowval" )||(ub[row]==Infinity)){document.getElementById("ub"+row).className="val"}
+else{if( (yel.length!=0) || (document.getElementById("lb"+row).className=="yellowval") ||( ub[row]==Infinity )) {for (j of yel){document.getElementById("ub"+j).className="val";}document.getElementById("ub"+row).className="yellowval";document.getElementById("lb"+row).className="val";}
+    else{document.getElementById("ub"+row).className="yellowval";}
+}
+
+for(j=1;j<=n;j++){
+	if((document.getElementById("x0,"+j).className=="yellowval")){
+		 pivot(row,j);
+			
+		 }
+	}
+}
+
+  
+
+/*setTimeout(ubgotChoice,200);*/
+function entergotChoice(col){
+	collist[listlen] = col;
+	u=Array.from(Array(n), (_, i) => i + 1);
+	if (listlen < 99) { listlen++; } else {listlen=0;}
+        colf=u.filter(x=>x!=col);
+	var yel=[];
+for(j of colf){if(document.getElementById("x0,"+j).className=="yellowval"){yel.push(j);}}
+
+if(document.getElementById("x0,"+col).className=="yellowval"){document.getElementById("x0,"+col).className="var"}
+else{if(yel.length!=0 ) {for (j of yel){document.getElementById("x0,"+j).className="var";document.getElementById("x0,"+col).className="yellowval";}}
+    else{document.getElementById("x0,"+col).className="yellowval";}}
+
+for(j=1;j<=m;j++){
+	if((document.getElementById("lb"+j).className=="yellowval")||(document.getElementById("ub"+j).className=="yellowval")){
+		pivot(j,col);
+		 
+	}
+}
+}
+
+/*setTimeout(entergotChoice,200);*/
 
   function ck_edits() {
         var eps = 1e-4;
@@ -1130,19 +955,16 @@ if(document.getElementById("l"+(m+1)+","+col).className=="orangeval" || document
 	}
     	if (method != "Klee-Minty") {
 	  for (i=1; i<=m; i++) {
-	    vb = fracDivide(document.getElementById("vb"+i).value);
-	    if (Math.abs(vb[i] - vb/factor) > eps) {vb[i] = vb/factor;}
+	    vbb = fracDivide(document.getElementById("vb"+i).value);
+	    if (Math.abs(vb[i] - vbb/factor) > eps) {vb[i] = vbb/factor;}
 	  }
 	}
   }
 
   function pivot(row,col) {
 		leaving  = document.getElementById("w"+row).value;
-	entering = document.getElementById("x0,"+col).value;
-    lbenter= document.getElementById("l"+(m+1)+","+col).value;
-     ubenter= document.getElementById("u"+(m+2)+","+col).value;
-     lbleave= document.getElementById("lb"+row).value;
-     ubleave= document.getElementById("ub"+row).value;
+	       entering = document.getElementById("x0,"+col).value;
+  
 	// ck_edits();
 
 	/* PIVOT HERE */
@@ -1161,49 +983,20 @@ if(document.getElementById("l"+(m+1)+","+col).className=="orangeval" || document
 	for (j=1; j<=n; j++) { arow[j] = a[row][j]; }
 	arowcol = a[row][col];
 
-	if (arowcol == 0 && element.className=="purpleval") {
-      if(element1.value=="\u221e" || element1.value=="inf" )
-	    {bark.play();  // THIS BLINKING CODE DOES NOT WORK
-	    var element = document.getElementById("a"+row+","+col)
-	    for (j=0; j<5; j++) {
-		element.className = "pinkval";
-		wait(200);
-		element.className = "val";
-		wait(200);
-	    }}
-        else {element1.className="orangeval";element.className="val"}
-	return;
-	}
-if (arowcol == 0 && element1.className=="orangeval"){
-      if(element.value=="\u221e" || element.value=="inf" )
-	    {bark.play();  // THIS BLINKING CODE DOES NOT WORK
-	    var element = document.getElementById("a"+row+","+col)
-	    for (j=0; j<5; j++) {
-		element.className = "pinkval";
-		wait(200);
-		element.className = "val";
-		wait(200);
-	    }}
-        else {element.className="purpleval";element1.className="val"}
-  return;
-}
-	   
+	if (arowcol == 0){
+        if(element.className=="purpleval" && (l[col]==-Infinity )) {
+	    bark.play();
+	    }
+        else {element1.className="orangeval";element.className="val";}
+return;}
+	
 
-	document.getElementById("w"+row).value = entering;
-    document.getElementById("lb"+row).value = lbenter;
-     document.getElementById("ub"+row).value = ubenter;	
+
+   document.getElementById("w"+row).value = entering;
 for (i=0; i<=m; i++) {
 	     document.getElementById("x"+i+","+col).value = leaving;}
-
-         document.getElementById("l"+(m+1)+","+col).value = lbleave;
-	 document.getElementById("u"+(m+2)+","+col).value = ubleave;
-
-    	   
-      if((element.value=="\u221e" || element.value=="inf" ) && element.className=="purpleval")
-  	{ element1.className="orangeval";}
-
-      if((element1.value=="\u221e" || element1.value=="inf" ) && elemen1t.className=="orangeval")
-  	{ element.className="purpleval";}
+ 	   
+   
     
 	for (i=1; i<=m; i++) {
 	    for (j=1; j<=n; j++) {
@@ -1241,7 +1034,23 @@ for (i=0; i<=m; i++) {
 	}
 
 	obj -= brow*ccol/arowcol;
+lcol=l[col];
+ucol=u[col];    
+l[col]=lb[row];
+    lb[row]=lcol;
+    u[col]=ub[row];
+    ub[row]=ucol;
+	
+  if((u[col]==Infinity) && (element.className=="purpleval"))
+  	{ element1.className="orangeval";}
 
+      if((l[col]==-Infinity) && (element1.className=="orangeval"))
+  	{ element.className="purpleval";}
+if (arowcol == 0){
+if(element1.className=="orangeval" && (u[col]==Infinity ))
+	    {bark.play(); }
+        else {element.className="purpleval";element1.className="val";}
+return;}
         updateColLabels(col);
 	toGrid();
 	
@@ -1286,6 +1095,41 @@ for (i=0; i<=m; i++) {
 		*/
   	}
   }
+
+
+
+  function ck_opt()
+  {
+  	var i, j;
+  	var optflag=true;
+  
+  	for (i=1; i<=m; i++) { 
+	    b[i] = fracDivide(document.getElementById("b"+i).value);
+	}
+  
+  	for (j=mmn+1; j<=n; j++) { 
+	    c[j] = fracDivide(document.getElementById("c"+j).value);
+	}
+  
+  	for (i=1; i<=m; i++) {element1=document.getElementById("lb"+i);element2=document.getElementById("ub"+i);
+  		if ((vb[i] < 1e-10*lb[i])||(vb[i] > 1e-10*ub[i])) {
+  			optflag = false;
+  		}
+  	}
+  
+  	for (j=mmn+1; j<=n; j++) {element=document.getElementById("l"+(m+1)+","+j);element1=document.getElementById("u"+(m+2)+","+j);
+  		if ((element.className=="orangeval" && c[j] <- 1e-10) || (element1.className=="purpleval" && c[j] > 1e-10)) {
+  			optflag = false;
+  		}
+  	}
+  
+  	if (optflag == true) {
+  		meg.play();
+  	} else {
+  		bark.play();
+	
+  	}
+  }
   
   function ck_p_unbdd()
   {
@@ -1293,8 +1137,8 @@ for (i=0; i<=m; i++) {
   	var d_infeas_flag=false;
   	var p_feas_flag=true;
   
-  	for (i=1; i<=m; i++) { element=document.getElementById("vb"+i);
-	    element.value = fracDivide(document.getElementById("vb"+i).value);
+  	for (i=1; i<=m; i++) { 
+	   vb[i] = fracDivide(document.getElementById("vb"+i).value);
 	}
   
   	for (j=mmn+1; j<=n; j++) { 
@@ -1309,19 +1153,17 @@ for (i=0; i<=m; i++) {
   		}
   	}
   
-	var dl=[];
-	var du=[];
-  	for (j=mmn+1; j<=n; j++) { 
-  	    if ((document.getElementById("l"+(m+1)+","+j).className=="orangeval" && c[j] > 1e-10)||(document.getElementById("u"+(m+2)+","+j).className=="purpleval" && c[j] < -1e-10)){
-  		d_infeas_flag = true;
+  	for (j=mmn+1; j<=n; j++) {
 	if (document.getElementById("l"+(m+1)+","+j).className=="orangeval" && c[j] > 1e-10){
-	for (i=1; i<=m; i++) {
+d_infeas_flag=true;	
+    for (i=1; i<=m; i++) {
   		    if (a[i][j] < -0.00001) {
   			d_infeas_flag = false;
   			break;
   		    }
   		}}
-       if (document.getElementById("l"+(m+1)+","+j).className=="orangeval" && c[j] > 1e-10){
+       if (document.getElementById("u"+(m+2)+","+j).className=="purpleval" && c[j] < -1e-10){
+  d_infeas_flag=true;
 	for (i=1; i<=m; i++) {
   		    if (a[i][j] > 0.00001) {
   			d_infeas_flag = false;
@@ -1329,10 +1171,9 @@ for (i=0; i<=m; i++) {
   		    }
   		}}
 
-
   		if (d_infeas_flag == true) {
-  		    for (i=1; i<=m; i++) {element=document.getElementById("vb"+i);
-  			if (element.value < -0.00001 && a[i][j] < 0.00001) {
+  		    for (i=1; i<=m; i++) {
+  			if ((vb[i] < 1e-10*lb[i])||(vb[i] > 1e-10*ub[i])) {
   			    d_infeas_flag = false;
   			    break;
   			}
@@ -1340,20 +1181,14 @@ for (i=0; i<=m; i++) {
   		}
   		if (d_infeas_flag == true) break;
   	    }
-  	}
+  	
   
   	if (d_infeas_flag == true) {
   		// reset();
   		meg.play();
   	} else {
   		bark.play();
-		/*
-  		try {
-  		    pf.d_infeas_button.setBackground(pink);
-  		    Thread.sleep(1000);
-  		    pf.d_infeas_button.setBackground(gray);
-  		} catch(InterruptedException ie){};
-		*/
+	
   	}
   }
   
@@ -1362,8 +1197,8 @@ for (i=0; i<=m; i++) {
   	var i, j;
   	var p_infeas_flag=false;
   
-  	for (i=1; i<=m; i++) { element=document.getElementById("vb"+i)
-	    element.value = fracDivide(document.getElementById("vb"+i).value);
+  	for (i=1; i<=m; i++) {
+	    vb[i] = fracDivide(document.getElementById("vb"+i).value);
 	}
   
   	for (j=mmn+1; j<=n; j++) { 
@@ -1379,8 +1214,8 @@ for (i=0; i<=m; i++) {
   		}
   	}
   
-  	for (i=1; i<=m; i++) {element=document.getElementById("vb"+i);var element1= document.getElementById("lb"+i); element2=document.getElementById("ub"+i);
-  	    if ((element.value < 1e-10*element1.value)||(element.value > 1e-10*element2.value)) {
+  	for (i=1; i<=m; i++) {
+  	    if ((vb[i] < 1e-10*lb[i])||(vb[i] > 1e-10*ub[i])) {
   		p_infeas_flag = true;
   		for (j=mmn+1; j<=n; j++) {
   		    if (a[i][j] >  0.00001) {
@@ -1397,36 +1232,19 @@ for (i=0; i<=m; i++) {
   		meg.play();
   	} else {
   		bark.play();
-		/*
-  		try {
-  		    pf.p_infeas_button.setBackground(pink);
-  		    Thread.sleep(1000);
-  		    pf.p_infeas_button.setBackground(gray);
-  		} catch(InterruptedException ie){};
-		*/
+		
   	}
   }
 
   function makePlot() {
         var eps;
         if ( (n==2 || (n==3 && method == "Primal w/ x0" )) && ctx != null) {
-	  if (
-                  (n==2 && lowerbound[1]==1 && upperbound[2]==2) 
-                  ||
-                  (n==3 && method == "Primal w/ x0" 
-                        && lowerbound[1]==1 && lowerbound[2]==2 && upperbound[1]==1) 
-             ){
+	{
            plotwid = 400;
 	   ctx.fillStyle = "rgb(255,255,255)";
 	   ctx.fillRect(0,0,plotwid,plotwid);
 
            for (i=1; i<=m; i++) {
-	      // if (a[i][2] == 0) { a[i][2] = 1; }
-	      /*
-	      rr = Math.random();
-	      gg = Math.random();
-	      bb = Math.random();
-	      */
 
 	      eps = 1e-4*(Math.random()-0.5);
 
@@ -1594,15 +1412,15 @@ for (i=0; i<=m; i++) {
 
 	  xx = 0; yy = 0;
 	  for (i=1; i<=m; i++) {
-	      if (basics[i] == 1) xx=b[i];
-	      if (basics[i] == 2) yy=b[i];
+	      if (basics[i] == 1) xx=vb[i];
+	      if (basics[i] == 2) yy=vb[i];
 	  }
 	  ctx.fillStyle = "red";
 	  fillArc(xpx(xx)-2, ypx(yy)-2, 4, 0, 360);
         }
   }
-
-
+  
+  
   function toGrid() {
 	var element;
 	var nnv = "      ";
@@ -1613,57 +1431,8 @@ for (i=0; i<=m; i++) {
         var tmp1="";
         var tmp2="";
         var tmp3="";
-	/*makePlot();
+	makePlot();
 
-        tmp = ""+myformat(obj);
-        wid = Math.max(3,tmp.length);
-        maxden = den;
-        for (i=1; i<=m; i++) {
-            tmp = ""+myformat(b[i]);
-            wid = Math.max(wid, tmp.length);
-            maxden = Math.max(maxden, den);
-        }
-        for (i=1; i<=m; i++) {
-            tmp = ""+myformat(lb[i]);
-            wid = Math.max(wid, tmp.length);
-            maxden = Math.max(maxden, den);
-        }
-        for (i=1; i<=m; i++) {
-            tmp = ""+myformat(ub[i]);
-            wid = Math.max(wid, tmp.length);
-            maxden = Math.max(maxden, den);
-        }
-        for (i=1; i<=m; i++) {
-            tmp = ""+myformat(vb[i]);
-            wid = Math.max(wid, tmp.length);
-            maxden = Math.max(maxden, den);
-        }
-	
-
-	for (j=1; j<=n; j++) {
-            tmp = ""+myformat(c[j]);
-            wid = Math.max(3,tmp.length);
-            maxden = Math.max(maxden, den);
-            for (i=1; i<=m; i++) {
-                tmp = ""+myformat(-a[i][j]);
-                wid = Math.max(wid, tmp.length);
-                maxden = Math.max(maxden, den);
-            
-            }
-           
-            document.getElementById("c"+j).setAttribute("size", wid);
-            for (i=1; i<=m; i++) {
-                document.getElementById("a"+i+","+j).setAttribute("size", wid);
-            }
-           
-               document.getElementById("l"+(m+1)+","+j).setAttribute("size", wid);
-             document.getElementById("u"+(m+2)+","+j).setAttribute("size", wid);
-            
-            
-           document.getElementById("x0,"+j).setAttribute("size",
-           document.getElementById("x1,"+j).getAttribute("value").length+1);
-        }
-*/
       
         tmp="subject to:   "+maxden+" ".length;
             document.getElementById("md"+0).setAttribute("size", tmp);
@@ -1674,10 +1443,14 @@ for (i=0; i<=m; i++) {
    
 	for (j=1; j<=n; j++) {
 	    element = document.getElementById("c"+j);
-element2 = document.getElementById("u"+(m+2)+","+j);
-element1 = document.getElementById("l"+(m+1)+","+j);
+	    element2 = document.getElementById("u"+(m+2)+","+j);
+            element1 = document.getElementById("l"+(m+1)+","+j);
 
 	    element.value = myformat2(c[j]);
+         element2.value = myformat2(u[j]);
+          element1.value = myformat2(l[j]);
+          
+          
 	    if (Math.abs(c[j]) < 1e-10) { 
                   if (vis == "Dimmed")    { 
                           element.className = "zeroval"; 
@@ -1699,6 +1472,7 @@ element1 = document.getElementById("l"+(m+1)+","+j);
                   if (document.getElementById("plus"+j) != null)
                       document.getElementById("plus"+j).className = "sign"; 
             }
+                
              if ((method != "Klee-Minty" && method != "Lexicographic") || j>m) {
              
  if( (element2.className=="purpleval" &&c[j]<-1e-10)||(element1.className=="orangeval" &&c[j]>1e-10))
@@ -1714,7 +1488,7 @@ element1 = document.getElementById("l"+(m+1)+","+j);
                                else
 	                       { element.className = "val"; }
 		}
-	     nnv1 += document.getElementById("l"+(m+1)+","+j).value + " \u2264" +  document.getElementById("x0,"+j).value +"\u2264 " +document.getElementById("u"+(m+2)+","+j).value ;
+	     nnv1 += l[j] + " \u2264" +  document.getElementById("x0,"+j).value +"\u2264 " +u[j];
 	   if(j<n){nnv1 +=";  ";}
 	    
 	}
@@ -1735,22 +1509,7 @@ if(  document.getElementById("u"+(m+2)+","+i).className=="purpleval" )
                         
 		}
 
-	var l=[];
-var u=[];
- for (i=1; i<=n; i++)
-     {element=document.getElementById("l"+(m+1)+","+i);
-     var element1=document.getElementById("u"+(m+2)+","+i);
-     if(element.className=="orangeval")
-     {l[i]=i;}
-     if( element1.className=="purpleval"){u[i]=i;}}
-     var lf=l.filter(function(x){return x!==null;});
-     var uf=u.filter(function(x){return x!==null;});
-  
-    for (i=1; i<=m; i++){ var vbj=0; var vb=0;
-      for (j of lf) {
-       vbj+=a[i][j]*document.getElementById("l"+(m+1)+","+j).value;}
-	for (k of uf) {  vb+=a[i][k]*document.getElementById("u"+(m+2)+","+k).value;}
-document.getElementById("vb"+i).value=b[i]+vbj+vb;}
+for(i=1;i<=m;i++){vb[i]=vbval(i);}
 
 for (i=1; i<=m+2; i++) {
             element = document.getElementById("mb"+i); 
@@ -1793,11 +1552,12 @@ for (i=1; i<=m+2; i++) {
            
             var  element2 = document.getElementById("ub"+i);  
 
-		element.value = myformat2(element.value);
-
+		element.value = myformat2(vb[i]);
+ element1.value = myformat2(lb[i]);
+  element2.value = myformat2(ub[i]);
           
-	    if (element1.value*(1e-10) > element.value || element2.value*(1e-10)< element.value) { element.className = "pinkval"; } else
-        if (element1.value<=element.value <=  element2.value) { 
+	    if (lb[i]*(1e-10) > element.value || ub[i]*(1e-10)< element.value) { element.className = "pinkval"; } else
+        if (lb[i]<=vb[i] <=  ub[i]) { 
                                 if (vis == "Dimmed") {
                                  element.className = "zeroval"; } else
                                 if (vis == "Invisible") {
@@ -1886,7 +1646,7 @@ for (i=1; i<=m+2; i++) {
 	}
 
   }
-
+ 
   function fillArc(x,y,r,theta0, theta1)
   {
 	ctx.beginPath();
@@ -2057,7 +1817,7 @@ for (i=1; i<=m+2; i++) {
 <span id="ruler"></span>
 <font size="+0">
 <center>
-<H2>Simple Pivot Tool</H2>
+<H2>Simple Pivot Tool for Bounded Problem</H2>
 Go general: &nbsp; &nbsp;
 Constraints = <input size="3" value="3" class="input" id="m" onchange="setm(this.value)">,
 Variables   = <input size="3" value="4" class="input" id="n" onchange="setn(this.value)">.
