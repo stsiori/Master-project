@@ -6,7 +6,8 @@
 <HEAD>
 <TITLE>Simplex Pivot Tool</TITLE>
 <LINK REL="SHORTCUT ICON" HREF="/myshield.png" TYPE="image/png">
-<LINK REL="stylesheet" HREF="boundedsimplex.css" TYPE="text/css" MEDIA="screen">
+<LINK REL="stylesheet" HREF="boundedsimplex - Copy.css" TYPE="text/css" MEDIA="screen">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <meta charset="utf-8"/>
 <script src="sprintf.js" type="text/javascript"></script>
 <SCRIPT language="javascript">
@@ -22,8 +23,6 @@
   var lb=[];
   var ub=[];
   var basics=[];
-var upperbound=[];
-var lowerbound=[];
   var obj;
   var element;
   var method;
@@ -43,7 +42,7 @@ var lowerbound=[];
 
   var xlo, xhi, ylo, yhi, plotwid;
 
-  var meg, bark;
+  var meg, bark, dothat;
   // FOLLOWING LINES ARE TO TEST THE BROWSWER SINCE meg.load() DOESN'T WORK IN
   // CHROME
   // Opera 8.0+
@@ -104,7 +103,6 @@ var lowerbound=[];
 	  rowElement.appendChild(element);
   
   }
-
 
 
   function removeElements(elements) {
@@ -301,6 +299,38 @@ for(i=1;i<=2;i++){
 	// ==================================================
 
 for(i=1;i<=m;i++){vb[i]=vbval(i);}
+
+	obj = 0;
+
+	listlen = 0;
+	for (var i=0; i<100; i++) rowlist[i] = -1;
+
+	for (i=1; i<=m; i++) {
+	     document.getElementById("w"+i).value = wlabel[i]; // +" ";
+	}
+	element = document.getElementById("obj");
+        var newwid = 1;
+	if (element != null) { newwid = Math.max(newwid, element.value.visualLength());}
+	for (i=1; i<=m; i++) {
+	    var element = document.getElementById("w"+i);
+	    newwid = Math.max(newwid, element.value.visualLength());
+	}
+        newwid += 20;
+	var element = document.getElementById("obj");
+	if (element != null) { element.style.width = newwid+"px";}
+	for (i=1; i<=m; i++) {
+	    var element = document.getElementById("w"+i);
+	    element.style.width = newwid+"px";
+	}
+	for (j=1; j<=n; j++) {
+	     document.getElementById("x0,"+j).value = xlabel[j]; // +" ";
+	     var wid = document.getElementById("x0,"+j).value.visualLength() + 20;
+             for (i=0; i<=m+2; i++) {
+	         document.getElementById("x"+i+","+j).value = xlabel[j]; // +" ";
+                 var element = document.getElementById("x"+i+","+j);
+                 element.style.width = wid+"px";
+             }
+	}
 	toGrid();
 
   } 
@@ -336,8 +366,6 @@ return b[i]+vbj+vb;
 if (col!= -1){
 lowgotChoice(col);}
 if (col != -1){upgotChoice(col);}
-
-
   }
 
    function Hint() {
@@ -456,7 +484,7 @@ if ( element.className==="pinkval" ){
 
         element.value = newvalue;
       
-        var newwid = element.value.visualLength() + 10;
+        var newwid = element.value.visualLength() + 20;
       
 	for (i=0; i<=m+2; i++) {
 	    var element = document.getElementById("x"+i+","+j);
@@ -494,7 +522,7 @@ if ( element.className==="pinkval" ){
 	    var element = document.getElementById("w"+i);
 	    newwid = Math.max(newwid, element.value.visualLength());
 	}
-        newwid += 10;
+        newwid += 20;
 	var element = document.getElementById("obj");
 	if (element != null) { element.style.width = newwid+"px";}
 	for (i=1; i<=m; i++) {
@@ -516,14 +544,13 @@ if ( element.className==="pinkval" ){
 
 	n = 1.*document.getElementById("n").value;
 
-	for (i=0; i<=m0; i++) {
+	for (i=0; i<=m0+4; i++) {
 	    removeElements(document.querySelectorAll("#rowStuff"+i+" input"));
 	    removeElements(document.querySelectorAll("#rowStuff"+i+" br"));
 	}
-	removeElements(document.querySelectorAll("#rowStuff"+(m0+1)+" input"));
+	
     
-	m0 = m+7; 
-
+	m0 = m;
 	// fmt = "Decimal";
 	seed = 0;
         document.getElementById("seed").value = seed;
@@ -546,7 +573,7 @@ if ( element.className==="pinkval" ){
 
         document.getElementById("md0").style.textAlign = "right";
       
-	add("text","" +zlabel+ " ",1,0,"readonly","whiteval"   ,"obj"   );
+	add("text","" +zlabel+ " ",1,0,"readonly","val"   ,"obj"   );
     document.getElementById("obj").style.textAlign = "center";
 	add("text"," = "     ,3,0,"readonly","equals","e0"      );
 	
@@ -579,15 +606,24 @@ add("button","lb",1 ,0,"","butvar"  ,"lb"+0);
       add("text"," "    ,1 ,0,"readonly","sign","e" );
   
 
+	   
+	        var element = document.getElementById("lb"+0);
+	        element.setAttribute("onclick","lbgotChoice()");
+	    
+	
+	        var element1 = document.getElementById("ub"+0);
+	        element1.setAttribute("onclick","ubgotChoice()");
+
 	for (i=1; i<=m; i++) {
      
       add("text","",1,i,"readonly","sign","mb"+i);
             document.getElementById("mb"+i).style.textAlign = "right";
      
     
-	    add("text",wlabel[i],1 ,i,"","whiteval"   ,"w"+i);   
+	    add("text",wlabel[i],1 ,i,"","val"   ,"w"+i);   
 	    element = document.getElementById("w"+i);
         element.style.textAlign = "center";
+
 	    element.setAttribute("onchange","updateRowLabel("+i+")");
          add("text"," = "    ,3 ,i,"readonly","equals","e"+i   );
          
@@ -602,6 +638,7 @@ add("button","lb",1 ,0,"","butvar"  ,"lb"+0);
                     tmp = document.getElementById("a"+i+","+j);
                     tmp.style.backgroundColor = "#F8F8F8";
 		    add("button",xlabel[j]+" ","",i,""        ,"butvar"   ,"x"+i+","+j);
+
 		
 	    } add("text"," = "    ,1 ,i,"readonly","equals","e"+i   );
          add("text"  ,"0"           ,1 ,i,""    ,"val"   ,"vb"+i);
@@ -694,15 +731,23 @@ add("text","",1 ,m+2,"readonly","sign"  ,"lb"+(m+2));
 	    rowElement.appendChild(element);
 
     
-	add("button", "", 80, m+3, "readonly", "whiteval", "basicvars");
-	add("button", "", 80, m+4, "readonly", "whiteval", "nonbasicvars");
+	add("button", "", 80, m+3, "readonly", "butvar", "basicvars");
+	add("button", "", 80, m+4, "readonly", "butvar", "nonbasicvars");
 	for (i=1; i<=m; i++) {
 	    for (j=1; j<=n; j++) {
 	        var element = document.getElementById("x"+i+","+j);
 	        element.setAttribute("onclick","gotClicked("+i+","+j+")");
 	    }
 	}
-	 
+
+
+	   
+	        var element = document.getElementById("lb"+0);
+	        element.setAttribute("onclick","lbgotChoice()");
+	    
+	
+	        var element1 = document.getElementById("ub"+0);
+	        element1.setAttribute("onclick","ubgotChoice()");
 
 	 for (j=1; j<=n; j++) {
 	        var element = document.getElementById("x"+(m+1)+","+j);
@@ -714,27 +759,18 @@ add("text","",1 ,m+2,"readonly","sign"  ,"lb"+(m+2));
 	        element.setAttribute("onclick","upgotChoice("+j+")");
 	    }
 	
- for (j=1; j<=m; j++) {
-	        var element = document.getElementById("ub"+j);
-	        element.setAttribute("onclick","ubgotChoice("+j+")");
-	    }
-	
- for (j=1; j<=m; j++) {
-	        var element = document.getElementById("lb"+j);
-	        element.setAttribute("onclick","lbgotChoice("+j+")");
-	    }
-	
- for (j=1; j<=n; j++) {
-	        var element = document.getElementById("x0,"+j);
-	        element.setAttribute("onclick","entergotChoice("+j+")");
-	    }
 	
 	if (Math.random() <= 0.5) {
-	    bark = new Audio("0267.wav");
+	    bark = new Audio("tryagain.m4a");
 	} else {
-	    bark = new Audio("apprentice_fired.m4a");
+	    bark = new Audio("fail-trombone-02.mp3");
 	}
-	meg  = new Audio("hal9000.m4a");
+if (Math.random() <= 0.5) {
+	    meg = new Audio("Home_Run.mp3");
+	} else {
+	    meg = new Audio("cheer 1 short.mp3");
+	}
+	dothat= new Audio("ChooseLb_copy.mp3");
 
 
 
@@ -773,8 +809,8 @@ toGrid();
 
 	for (i=0; i<=m+2; i++) {
 
-	 var wid1=  document.getElementById("lb"+0).value.visualLength()+15;
-         var wid2=  document.getElementById("vb"+0).value.visualLength()+30;
+	 var wid1=  document.getElementById("lb"+0).value.visualLength()+40;
+         var wid2=  document.getElementById("vb"+0).value.visualLength()+50;
          var element = document.getElementById("lb"+i);
                  element.style.width = wid1+"px";
              var element1 = document.getElementById("ub"+i);
@@ -794,7 +830,7 @@ toGrid();
          
 	     document.getElementById("x"+(m+2)+","+j).value = xlabel[j];
        
-	     var wid = document.getElementById("x"+(m+1)+","+j).value.visualLength()+15;
+	     var wid = document.getElementById("x"+(m+1)+","+j).value.visualLength()+20;
             
              for (i=0; i<=m+2; i++) {
 	       
@@ -810,21 +846,92 @@ toGrid();
 	toGrid();
 
   }
-  
+
+
+
   function gotClicked(row,col) {
 
 	rowlist[listlen] = row;
 	collist[listlen] = col;
 	if (listlen < 99) { listlen++; } else {listlen=0;}
-	pivot(row,col);
-  }
+document.getElementById("x"+row+","+col).className="clickvar";
+dothat.play();
  
- function lowgotChoice(col) {
+ var loaded = false;
+    var minDone = false;
+    //The minimum timeout.
+    setTimeout(function(){
+        minDone = true;
+        if(loaded)
+        {
+            yellowtrue(row,col);
+        }
+    }, 200);
+    setTimeout(function(){
+        //Max timeout 
+           yellowtrue(row,col);
+	  document.getElementById("x"+row+","+col).className="butvar";
+    }, 4000);
+    
+     $(window).on("load",function(){
+        loaded = true;
+        if(minDone)
+        {
+            yellowtrue(row,col);
+        }
+    });
+}
+
+
+ 
+function yellowtrue(row,col){
+if(document.getElementById("lb"+0).className=="clickvar"){
+lbgotClicked(row,col);}
+
+
+else if(document.getElementById("ub"+0).className=="clickvar"){
+ubgotClicked(row,col);}
+
+else {return;}}
+
+ function lbgotChoice (row,col)  {
+document.getElementById("lb"+0).className="clickvar";
+ setTimeout(function(){
+        document.getElementById("lb"+0).className="butvar";
+    }, 4000);
+}
+
+ function ubgotChoice() {
+document.getElementById("ub"+0).className="clickvar";
+setTimeout(function(){
+        minDone = true;
+        if(loaded)
+        {
+        document.getElementById("ub"+0).className="butvar";
+        }
+    }, 200);
+    setTimeout(function(){
+        //Max timeout 
+         
+        document.getElementById("ub"+0).className="butvar";
+    }, 4000);
+    
+     $(window).on("load",function(){
+        loaded = true;
+        if(minDone)
+        {
+           
+        document.getElementById("ub"+0).className="butvar";
+        }
+    });
+
+}
+ 
+function lowgotChoice(col) {
 
 	collist[listlen] = col;
 	if (listlen < 99) { listlen++; } else {listlen=0;}
-//if(l[col]==-Infinity){alert("Choose a finite bound :) ");}
-if(document.getElementById("l"+(m+1)+","+col).className=="orangeval"||l[col]==-Infinity ) {document.getElementById("l"+(m+1)+","+col).className="val";}
+if((document.getElementById("l"+(m+1)+","+col).className=="orangeval")||(l[col]==-Infinity) ) {document.getElementById("l"+(m+1)+","+col).className="val";}
     else{document.getElementById("l"+(m+1)+","+col).className="orangeval";document.getElementById("u"+(m+2)+","+col).className="val";}
 toGrid();}
 
@@ -832,99 +939,31 @@ toGrid();}
 
 	collist[listlen] = col;
 	if (listlen < 99) { listlen++; } else {listlen=0;}
-	
-//if(u[col]==Infinity){alert("Choose a finite bound :) ");}
-    if(document.getElementById("u"+(m+2)+","+col).className=="purpleval"||u[col]==Infinity ) {document.getElementById("u"+(m+2)+","+col).className="val";}
+   if((document.getElementById("u"+(m+2)+","+col).className=="purpleval")||(u[col]==Infinity )) {document.getElementById("u"+(m+2)+","+col).className="val";}
     else{document.getElementById("u"+(m+2)+","+col).className="purpleval";document.getElementById("l"+(m+1)+","+col).className="val";}
 toGrid();}
 
-/*function entergotChoice(col) {
+ function lbgotClicked(row,col) {
+
 	collist[listlen] = col;
-	u=Array.from(Array(n), (_, i) => i + 1);
 	if (listlen < 99) { listlen++; } else {listlen=0;}
-        colf=u.filter(x=>x!=col);
-	var yel=[];
-for(j of colf){if(document.getElementById("x0,"+j).className=="yellowval"){yel.push(j);}}
-
-if(document.getElementById("x0,"+col).className=="yellowval"){document.getElementById("x0,"+col).className="var"}
-else{if(yel.length!=0 ) {for (j of yel){document.getElementById("x0,"+j).className="var";document.getElementById("x0,"+col).className="yellowval";}}
-    else{document.getElementById("x0,"+col).className="yellowval";}}
-
-  }*/
-function lbgotChoice(row) {
-
-	rowlist[listlen] = row;
-	if (listlen < 99) { listlen++; } else {listlen=0;}
-var u1=Array.from(Array(m), (_, i) => i + 1);	var yel=[];
-        rowf=u1.filter(x=>x!=1);
-for(j of rowf){if(document.getElementById("lb"+j).className=="yellowval"){yel.push(j);}}
-
-//for(j of rowf){if(document.getElementById("ub"+j).className=="yellowval"){yel.push(j);}}
-
-//if(ub[row]==Infinity){alert("Choose a finite bound :) ");}
-if((document.getElementById("lb"+row).className=="yellowval" )||(lb[row]==-Infinity)){document.getElementById("lb"+row).className="val"}
-else{if( (yel.length!=0) || (document.getElementById("ub"+row).className=="yellowval") ||( ub[row]==Infinity )) {for (j of yel){document.getElementById("lb"+j).className="val";}document.getElementById("lb"+row).className="yellowval";document.getElementById("ub"+row).className="val";}
-    else{document.getElementById("lb"+row).className="yellowval";}
+pivot(row,col);
+if(l[col]!=Infinity){document.getElementById("l"+(m+1)+","+col).className="orangeval";
+document.getElementById("u"+(m+2)+","+col).className="val";} else{document.getElementById("u"+(m+2)+","+col).className="purpleval";
+document.getElementById("l"+(m+1)+","+col).className="val";
+}
 }
 
-for(j=1;j<=n;j++){
-	if((document.getElementById("x0,"+j).className=="yellowval")){
-		 pivot(row,j);
-			
-		 }
-	}
-}
+ function ubgotClicked(row,col) {
 
-
-/*setTimeout(lbgotChoice,200);*/
-function ubgotChoice(row) {
-
-	rowlist[listlen] = row;
-	if (listlen < 99) { listlen++; } else {listlen=0;}
-var u1=Array.from(Array(m), (_, i) => i + 1);	var yel=[];
-        rowf=u1.filter(x=>x!=1);
-for(j of rowf){if(document.getElementById("ub"+j).className=="yellowval"){yel.push(j);}}
-
-//for(j of rowf){if(document.getElementById("ub"+j).className=="yellowval"){yel.push(j);}}
-
-//if(ub[row]==Infinity){alert("Choose a finite bound :) ");}
-if((document.getElementById("ub"+row).className=="yellowval" )||(ub[row]==Infinity)){document.getElementById("ub"+row).className="val"}
-else{if( (yel.length!=0) || (document.getElementById("lb"+row).className=="yellowval") ||( ub[row]==Infinity )) {for (j of yel){document.getElementById("ub"+j).className="val";}document.getElementById("ub"+row).className="yellowval";document.getElementById("lb"+row).className="val";}
-    else{document.getElementById("ub"+row).className="yellowval";}
-}
-
-for(j=1;j<=n;j++){
-	if((document.getElementById("x0,"+j).className=="yellowval")){
-		 pivot(row,j);
-			
-		 }
-	}
-}
-
-  
-
-/*setTimeout(ubgotChoice,200);*/
-function entergotChoice(col){
 	collist[listlen] = col;
-	u=Array.from(Array(n), (_, i) => i + 1);
 	if (listlen < 99) { listlen++; } else {listlen=0;}
-        colf=u.filter(x=>x!=col);
-	var yel=[];
-for(j of colf){if(document.getElementById("x0,"+j).className=="yellowval"){yel.push(j);}}
-
-if(document.getElementById("x0,"+col).className=="yellowval"){document.getElementById("x0,"+col).className="var"}
-else{if(yel.length!=0 ) {for (j of yel){document.getElementById("x0,"+j).className="var";document.getElementById("x0,"+col).className="yellowval";}}
-    else{document.getElementById("x0,"+col).className="yellowval";}}
-
-for(j=1;j<=m;j++){
-	if((document.getElementById("lb"+j).className=="yellowval")||(document.getElementById("ub"+j).className=="yellowval")){
-		pivot(j,col);
-		 
-	}
+pivot(row,col);
+if(u[col]!=Infinity){document.getElementById("u"+(m+2)+","+col).className="purpleval";
+document.getElementById("l"+(m+1)+","+col).className="val";} else{document.getElementById("u"+(m+2)+","+col).className="val";
+document.getElementById("l"+(m+1)+","+col).className="orangeval";
 }
 }
-
-/*setTimeout(entergotChoice,200);*/
 
   function ck_edits() {
         var eps = 1e-4;
@@ -959,13 +998,41 @@ for(j=1;j<=m;j++){
 	    if (Math.abs(vb[i] - vbb/factor) > eps) {vb[i] = vbb/factor;}
 	  }
 	}
+if (method != "Klee-Minty") {
+	  for (i=1; i<=m; i++) {
+	     lbb = fracDivide(document.getElementById("lb"+i).value);
+	    if (Math.abs(lb[i] - lbb/factor) > eps) {lb[i] = lbb/factor;}
+	  }
+	  }
+	
+if (method != "Klee-Minty") {
+	  for (i=1; i<=m; i++) {
+	      ubb = fracDivide(document.getElementById("ub"+i).value);
+	    if (Math.abs(ub[i] - ubb/factor) > eps) {ub[i] = ubb/factor;}
+	  }
+	  }
+	
+if (method != "Klee-Minty") {
+	  for (i=1; i<=n; i++) {
+	      ll = fracDivide(document.getElementById("l"+(m+1)+","+i).value);
+	    if (Math.abs(l[i] - ll/factor) > eps) {l[i] = ll/factor;}
+	  }
+	  }
+	
+if (method != "Klee-Minty") {
+	  for (i=1; i<=n; i++) {
+	      uu = fracDivide(document.getElementById("u"+(m+2)+","+i).value);
+	    if (Math.abs(u[i] - uu/factor) > eps) {u[i] = uu/factor;}
+	  }
+	  }
+	
+toGrid();
   }
 
   function pivot(row,col) {
 		leaving  = document.getElementById("w"+row).value;
 	       entering = document.getElementById("x0,"+col).value;
-  
-	// ck_edits();
+ 
 
 	/* PIVOT HERE */
 	var arow = [];
@@ -975,8 +1042,6 @@ for(j=1;j<=m;j++){
 	var basicrow;
 	 element=    document.getElementById("u"+(m+2)+","+col);
     var element1=    document.getElementById("l"+(m+1)+","+col);
-
-	//basicrow = basics[row];
 	
 	
 	for (i=1; i<=m; i++) { acol[i] = a[i][col]; }
@@ -984,14 +1049,12 @@ for(j=1;j<=m;j++){
 	arowcol = a[row][col];
 
 	if (arowcol == 0){
-        if(element.className=="purpleval" && (l[col]==-Infinity )) {
+         if(element.className=="purpleval" && (l[col]==-Infinity )) {
 	    bark.play();
 	    }
-        else {element1.className="orangeval";element.className="val";}
+        else {element1.className="orangeval";element.className="val";toGrid();}
 return;}
 	
-
-
    document.getElementById("w"+row).value = entering;
 for (i=0; i<=m; i++) {
 	     document.getElementById("x"+i+","+col).value = leaving;}
@@ -1041,11 +1104,7 @@ l[col]=lb[row];
     u[col]=ub[row];
     ub[row]=ucol;
 	
-  if((u[col]==Infinity) && (element.className=="purpleval"))
-  	{ element1.className="orangeval";}
 
-      if((l[col]==-Infinity) && (element1.className=="orangeval"))
-  	{ element.className="purpleval";}
 if (arowcol == 0){
 if(element1.className=="orangeval" && (u[col]==Infinity ))
 	    {bark.play(); }
@@ -1053,11 +1112,11 @@ if(element1.className=="orangeval" && (u[col]==Infinity ))
 return;}
         updateColLabels(col);
 	toGrid();
-	
+}
 
-  }
 
-  function ck_opt()
+
+  /*function ck_opt()
   {
   	var i, j;
   	var optflag=true;
@@ -1085,7 +1144,7 @@ return;}
   	if (optflag == true) {
   		meg.play();
   	} else {
-  		bark.play();
+  		bark.play();*/
 		/*
   		try {
   		    pf.opt_button.setBackground(pink);
@@ -1093,8 +1152,8 @@ return;}
   		    pf.opt_button.setBackground(gray);
   		} catch(InterruptedException ie){};
 		*/
-  	}
-  }
+  	//}
+ // }
 
 
 
@@ -1433,7 +1492,51 @@ d_infeas_flag=true;
         var tmp3="";
 	makePlot();
 
-      
+         tmp = ""+myformat(obj);
+        wid = Math.max(3,tmp.length);
+        maxden = den;
+        for (i=1; i<=m; i++) {
+            tmp = ""+myformat(b[i]);
+            wid = Math.max(wid, tmp.length);
+            maxden = Math.max(maxden, den);
+        }
+	 for (i=1; i<=m; i++) {
+            tmp = ""+myformat(lb[i]);
+            wid = Math.max(wid, tmp.length);
+            maxden = Math.max(maxden, den);
+        }
+         for (i=1; i<=m; i++) {
+            tmp = ""+myformat(ub[i]);
+            wid = Math.max(wid, tmp.length);
+            maxden = Math.max(maxden, den);
+        }
+         for (i=1; i<=m; i++) {
+            tmp = ""+myformat(vb[i]);
+            wid = Math.max(wid, tmp.length);
+            maxden = Math.max(maxden, den);
+        }
+         for (i=1; i<=n; i++) {
+            tmp = ""+myformat(l[i]);
+            wid = Math.max(wid, tmp.length);
+            maxden = Math.max(maxden, den);
+        }
+          for (i=1; i<=n; i++) {
+            tmp = ""+myformat(u[i]);
+            wid = Math.max(wid, tmp.length);
+            maxden = Math.max(maxden, den);
+        }
+
+	for (j=1; j<=n; j++) {
+            tmp = ""+myformat(c[j]);
+            wid = Math.max(3,tmp.length);
+            maxden = Math.max(maxden, den);
+            for (i=1; i<=m; i++) {
+                tmp = ""+myformat(-a[i][j]);
+                wid = Math.max(wid, tmp.length);
+                maxden = Math.max(maxden, den);
+            }
+        
+        }
         tmp="subject to:   "+maxden+" ".length;
             document.getElementById("md"+0).setAttribute("size", tmp);
     for(i=1;i<=m+2;i++){
@@ -1447,7 +1550,7 @@ d_infeas_flag=true;
             element1 = document.getElementById("l"+(m+1)+","+j);
 
 	    element.value = myformat2(c[j]);
-         element2.value = myformat2(u[j]);
+         element2.value =myformat2( u[j]);
           element1.value = myformat2(l[j]);
           
           
@@ -1496,20 +1599,33 @@ d_infeas_flag=true;
 
 for (i=1;i<=n;i++) {
 		element = document.getElementById("l"+(m+1)+","+i);
-                
-if( document.getElementById("l"+(m+1)+","+i).className=="orangeval" )
+               
+if( element.className=="orangeval" )
           {  document.getElementById("u"+(m+2)+","+i).className="val"}
 }
 
 for (i=1;i<=n;i++) {
 		
-		 element= document.getElementById("u"+(m+2)+","+i);
-if(  document.getElementById("u"+(m+2)+","+i).className=="purpleval" )
+		 element= document.getElementById("u"+(m+2)+","+i); 
+if(  element.className=="purpleval" )
           { document.getElementById("l"+(m+1)+","+i).className="val";}
                         
 		}
 
-for(i=1;i<=m;i++){vb[i]=vbval(i);}
+
+for (i=1;i<=n;i++) {
+		
+		element = document.getElementById("l"+(m+1)+","+i);
+		element1= document.getElementById("u"+(m+2)+","+i); 
+if(  (element.value== Infinity) )
+          { element.className="val";} 
+if( (element1.value== Infinity) )
+{ element1.className="val"}
+if(u[i]<=l[i]){tmp=u[i];u[i]=l[i];l[i]=tmp;}
+                        
+		}
+
+for(i=1;i<=m;i++){vb[i]=vbval(i);if(ub[i]<=lb[i]){tmp=ub[i];ub[i]=lb[i];lb[i]=tmp;}}
 
 for (i=1; i<=m+2; i++) {
             element = document.getElementById("mb"+i); 
@@ -1556,8 +1672,8 @@ for (i=1; i<=m+2; i++) {
  element1.value = myformat2(lb[i]);
   element2.value = myformat2(ub[i]);
           
-	    if (lb[i]*(1e-10) > element.value || ub[i]*(1e-10)< element.value) { element.className = "pinkval"; } else
-        if (lb[i]<=vb[i] <=  ub[i]) { 
+	    if ((lb[i] > vb[i]) || (ub[i] < vb[i])) { element.className = "pinkval"; } else
+        if (ub[i]>=vb[i] && vb[i]>=lb[i] ) { 
                                 if (vis == "Dimmed") {
                                  element.className = "zeroval"; } else
                                 if (vis == "Invisible") {
@@ -1802,14 +1918,14 @@ for (i=1; i<=m+2; i++) {
 
   String.prototype.visualLength = function() 
   {
-          var ruler = $("ruler");
+          var ruler =  document.getElementById("ruler");
           ruler.innerHTML = this;
           return ruler.offsetWidth;
   }
-  function $(id)
+ /* function $(id)
   {
     return document.getElementById(id);
-  }
+  }*/
 </SCRIPT>
 </HEAD>
 
