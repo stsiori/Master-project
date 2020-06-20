@@ -1,8 +1,7 @@
+@@ -0,0 +1,249 @@
 header {
         text-align:center;
 }
-
-
 
 
 footer {
@@ -22,30 +21,29 @@ border-bottom: 1px solid black;
 .column {
 }
 
+.clickvar {
+	text-align:center;
+	background-color: #00f6ff;
+        padding: 0px 7.5px;
+}
 
 .but {
 	font-size: 1.0em;
-        // font-family: "Times New Roman", Times, serif;
-        // font-family: "OML", serif;
-        // font-family: "Computer Modern", serif;
-        // font-style: italic;
+       
 	text-align:center;
 	background-color: #EEEEEE;
 }
 
 .var {
-	background-color: #FFFFFF;
+	background-color: #ebebe0;
 	border: none;
 	font-size: 0.8em;
-        // font-style: italic;
+        
 	text-align:center;
         color: #000000; 
 }
 
 .butvar {
-	border: none;
-	//font-size: 0.8em;
-        // font-style: italic;
 	text-align:center;
 	background-color: #DDDDDD;
         padding: 0px 7.5px;
@@ -55,50 +53,36 @@ border-bottom: 1px solid black;
 	background-color: #FFFFFF;
 	border: none;
 	font-size: 0.8em;
-        // font-style: italic;
+        
 	text-align:right;
 }
 
 .pinkvar {
 	background-color: #FFAAFF;
 	font-size: 0.8em;
-        // font-style: italic;
+        
 }
 
 .greenvar {
 	border: none;
 	background-color: #AAFFAA;
 	font-size: 0.8em;
-        // font-style: italic;
-}
-.lowervar {
-	border: none;
-	background-color:  #AAFFAA;
-	font-size: 0.8em;
-        // font-style: italic;
+       
 }
 
-.uppervar {
-	border: none;
-	background-color: #b3b3ff;
-	font-size: 0.8em;
-        // font-style: italic;
-}
 
 .whitevar {
 	border: none;
         color: #FFFFFF; 
 	background-color: #FFFFFF;
 	font-size: 0.8em;
-        // font-style: italic;
-}/*
+       
+}
 
-.grayvar {
-	border: none;
-        color: #FFFFFF; 
+.grayvar {border:none;        color: #FFFFFF; 
 	background-color: #F8F8F8;
 	font-size: 0.8em;
-        // font-style: italic;
+      
 }
 
 .zerovar {
@@ -106,14 +90,14 @@ border-bottom: 1px solid black;
         color: #CCCCCC; 
 	background-color: #F8F8F8;
 	font-size: 0.8em;
-        // font-style: italic;
+       
 	text-align:center;
-}*/
+}
 
 .equals {
 	border: none;
 	font-size: 0.8em;
-        // font-style: italic;
+        
 }
 
 .valcenter {
@@ -175,7 +159,6 @@ border: none;	background-color: #b3b3ff;
 
 border: none;	background-color: #FFFFFF;
 	border-color: transparent;
-        color: #FFFFFF; 
 	text-align:center;
 	font-size: 0.8em;
 }
@@ -193,30 +176,30 @@ border: none;
 	border: none;
 	color: #000000;
 	font-size: 0.8em;
-        // font-style: italic;
+       
         height: 1.63em;
 }
 
 .graysign {
 	border: none;
-        // opacity: 0.1; 
+        
         color: #CCCCCC; 
 	font-size: 0.8em;
-        // font-style: italic;
+       
         height: 1.63em;
 }
 
 .whitesign {
 	border: none;
-        // opacity: 0.1; 
+        
         color: #FFFFFF; 
 	font-size: 0.8em;
-        // font-style: italic;
+        
         height: 1.63em;
 }
 
 .input {	font-size: 1.0em;
-        // font-style: italic;
+        
 	text-align:center;
 }
 
@@ -225,14 +208,14 @@ border: none;
 border: none;
       color: #000000;
 	font-size: 1.0em;
-        // font-style: italic;
+       
 	text-align:center;
 }
 
 .whitetext {
         color: #FFFFFF;
 	font-size: 1.0em;
-        // font-style: italic;
+       
 	text-align:center;
 }
 
@@ -240,22 +223,20 @@ border: none;
 	border: none;
 	text-align:center;
 	font-size: 0.8em;
-        // font-style: italic;
+       
         width: 100%;
 }
 
 .yourname {
 	font-size: 1.0em;
-        // font-style: italic;
+       
 	text-align:center;
 }
 
 
 BODY {
 	font-family: Verdana;
-        // font-family: "OML", serif;
-        // font-family: "Computer Modern", serif;
-        // font-style: italic;
+       
 	font-size: 0.8em;
 }
 
@@ -266,4 +247,3 @@ span {
 
 
 #ruler {visibility: hidden; white-space: nowrap;}
-
