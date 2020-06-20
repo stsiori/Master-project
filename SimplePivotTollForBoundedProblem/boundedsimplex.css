@@ -1,0 +1,249 @@
+header {
+        text-align:center;
+}
+
+
+footer {
+        clear: both;
+}
+
+
+.row {
+        display: flex;
+justify-content: center;
+border-top: 1px solid black;
+border-bottom: 1px solid black;
+         
+}
+
+
+.column {
+}
+
+.clickvar {
+	text-align:center;
+	background-color: #00f6ff;
+        padding: 0px 7.5px;
+}
+
+.but {
+	font-size: 1.0em;
+       
+	text-align:center;
+	background-color: #EEEEEE;
+}
+
+.var {
+	background-color: #ebebe0;
+	border: none;
+	font-size: 0.8em;
+        
+	text-align:center;
+        color: #000000; 
+}
+
+.butvar {
+	text-align:center;
+	background-color: #DDDDDD;
+        padding: 0px 7.5px;
+}
+
+.varright {
+	background-color: #FFFFFF;
+	border: none;
+	font-size: 0.8em;
+        
+	text-align:right;
+}
+
+.pinkvar {
+	background-color: #FFAAFF;
+	font-size: 0.8em;
+        
+}
+
+.greenvar {
+	border: none;
+	background-color: #AAFFAA;
+	font-size: 0.8em;
+       
+}
+
+
+.whitevar {
+	border: none;
+        color: #FFFFFF; 
+	background-color: #FFFFFF;
+	font-size: 0.8em;
+       
+}
+
+.grayvar {border:none;        color: #FFFFFF; 
+	background-color: #F8F8F8;
+	font-size: 0.8em;
+      
+}
+
+.zerovar {
+	border: none;
+        color: #CCCCCC; 
+	background-color: #F8F8F8;
+	font-size: 0.8em;
+       
+	text-align:center;
+}
+
+.equals {
+	border: none;
+	font-size: 0.8em;
+        
+}
+
+.valcenter {
+	background-color: #FFFFFF;
+	font-size: 0.8em;
+	text-align:center;
+}
+
+.yellowvalcenter {
+	background-color: #FFFFAA;
+	text-align:center;
+	font-size: 0.8em;
+}
+
+.val {
+border: none;	background-color: #FFFFFF;
+	text-align:center;
+	font-size: 0.8em;
+}
+
+.grayval {
+
+border: none;	background-color: #F8F8F8;
+	text-align:center;
+	font-size: 0.8em;
+}
+
+.pinkval {
+border: none;	background-color: #FFAAFF;
+	text-align:center;
+	font-size: 0.8em;
+}
+
+.yellowval {
+
+border: none;	background-color: #FFFFAA;
+
+	text-align:center;
+	font-size: 0.8em;
+}
+
+.orangeval {
+
+border: none;	background-color: #ffaa80;
+
+	text-align:center;
+	font-size: 0.8em;
+}
+
+.purpleval {
+
+border: none;	background-color: #b3b3ff;
+
+	text-align:center;
+	font-size: 0.8em;
+}
+
+.whiteval {
+
+border: none;	background-color: #FFFFFF;
+	border-color: transparent;
+	text-align:center;
+	font-size: 0.8em;
+}
+
+.zeroval {
+
+border: none;
+ 	border-color: transparent;
+        color: #CCCCCC; 
+	text-align:center;
+	font-size: 0.8em;
+}
+
+.sign {
+	border: none;
+	color: #000000;
+	font-size: 0.8em;
+       
+        height: 1.63em;
+}
+
+.graysign {
+	border: none;
+        
+        color: #CCCCCC; 
+	font-size: 0.8em;
+       
+        height: 1.63em;
+}
+
+.whitesign {
+	border: none;
+        
+        color: #FFFFFF; 
+	font-size: 0.8em;
+        
+        height: 1.63em;
+}
+
+.input {	font-size: 1.0em;
+        
+	text-align:center;
+}
+
+.text {
+   
+border: none;
+      color: #000000;
+	font-size: 1.0em;
+       
+	text-align:center;
+}
+
+.whitetext {
+        color: #FFFFFF;
+	font-size: 1.0em;
+       
+	text-align:center;
+}
+
+.info {
+	border: none;
+	text-align:center;
+	font-size: 0.8em;
+       
+        width: 100%;
+}
+
+.yourname {
+	font-size: 1.0em;
+       
+	text-align:center;
+}
+
+
+BODY {
+	font-family: Verdana;
+       
+	font-size: 0.8em;
+}
+
+
+span {
+	background-color: #FFFFFF;
+}
+
+
+#ruler {visibility: hidden; white-space: nowrap;}
+
