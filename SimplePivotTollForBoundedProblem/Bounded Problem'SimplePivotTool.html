@@ -1647,7 +1647,7 @@ for (i=1; i<=m+2; i++) {
 	                       { element.className = "val"; }
 	  }
         
-		nnv += document.getElementById("lb"+i).value + " \u2264" +  document.getElementById("w"+i).value +" \u2264" +document.getElementById("ub"+i).value;
+		nnv += lb[i] + " \u2264" +  document.getElementById("w"+i).value +" \u2264" +ub[i];
 	  if(i<m){nnv+=";  ";}
 	}
     for (i=1; i<=m; i++) {
