@@ -34,6 +34,10 @@
   var rowlist = [];
   var collist = [];
   var listlen;
+var nblist=[];
+  var blist=[];
+var lowlist=[];
+  var uplist=[];
 
   var fmt="Fraction";
   var vis="Visible";
@@ -300,6 +304,25 @@ for(i=1;i<=2;i++){
 
 for(i=1;i<=m;i++){vb[i]=vbval(i);}
 
+obj = 0;
+
+	listlen = 0;
+	for (var i=0; i<100; i++) rowlist[i] = -1;
+	for (var i=0; i<100; i++) uplist[i] = -1;
+for (var i=0; i<100; i++) lowlist[i] = -1;
+
+	
+	for (j=1; j<=n; j++) {
+	     document.getElementById("x0,"+j).value = xlabel[j]; // +" ";
+	    // var wid = document.getElementById("x0,"+j).value.visualLength() + 30;
+             for (i=0; i<=m+2; i++) {
+	         document.getElementById("x"+i+","+j).value = xlabel[j]; // +" ";
+                 var element = document.getElementById("x"+i+","+j);
+                // element.style.width = wid+"px";
+             }
+	}
+
+
 	toGrid();
 
   } 
@@ -324,14 +347,52 @@ var vbj=0; var vb=0;
 return b[i]+vbj+vb;
 }
   function Undo() {
-	var row, col;
+	var row, col, bsc, nbsc, lowl,upl;
 
 	if (listlen > 0) { listlen--; } else { listlen = 99; }
 	row = rowlist[listlen];
 	col = collist[listlen];
-	if (row != -1) {
-		gotClicked(row,col);
+        bsc= blist[listlen];
+	nbsc=nblist[listlen];
+        lowl= lowlist[listlen];
+	upl=uplist[listlen];
+	if (row !=-1) {
+		pivot(row,col);
+		if ((bsc=="ub" && nbsc=="u")||(bsc=="lb" && nbsc=="u")) {
+			document.getElementById("u"+(m+2)+","+col).className="purpleval";
+document.getElementById("l"+(m+1)+","+col).className="val";
+		}
+		else if ((bsc=="lb" && nbsc=="l")||(bsc=="ub" && nbsc=="l") ){
+			document.getElementById("l"+(m+1)+","+col).className="orangeval";
+document.getElementById("u"+(m+2)+","+col).className="val";
+		}
+                   
 	}
+if (col!=-1 || col==-1) { 
+
+if (upl=="uc"){
+		document.getElementById("l"+(m+1)+","+col).className="orangeval";
+                document.getElementById("u"+(m+2)+","+col).className="val";
+		toGrid();}
+if (upl=="uco" && u[col]!=Infinity){
+                document.getElementById("u"+(m+2)+","+col).className="purpleval";
+		toGrid();}
+if (upl=="ucv"){
+                document.getElementById("u"+(m+2)+","+col).className="val";
+		toGrid();}
+
+if (lowl=="lc"){
+		document.getElementById("u"+(m+2)+","+col).className="purpleval";
+                document.getElementById("l"+(m+1)+","+col).className="val";
+		toGrid();}
+if (lowl=="lco" && l[col]!=-Infinity){
+                document.getElementById("l"+(m+1)+","+col).className="orangeval";
+		toGrid();}
+if (lowl=="lcv"){
+                document.getElementById("l"+(m+1)+","+col).className="val";
+		toGrid();}
+}
+
 }
    function Hint() {
 	var tmp, eps=1e-6;
@@ -504,7 +565,7 @@ setTimeout(function(){  for(i=1;i<=m;i++){for(j=1;j<=n;j++){document.getElementB
 
 	listlen = 0;
 	for (var i=0; i<100; i++) rowlist[i] = -1;
-
+	for (var i=0; i<100; i++) uplist[i] = -1;for (var i=0; i<100; i++) lowlist[i] = -1;
 
 	if (method == "Primal") {
             for (j=1; j<=n; j++) { xlabel[j] = "x"+sub[j]; }
@@ -764,6 +825,8 @@ toGrid();
 
 	listlen = 0;
 	for (var i=0; i<100; i++) rowlist[i] = -1;
+	for (var i=0; i<100; i++)  uplist[i] = -1;
+for (var i=0; i<100; i++) lowlist[i] = -1;
 
 	for (i=0; i<=m+2; i++) {
 
@@ -812,33 +875,20 @@ toGrid();
 	rowlist[listlen] = row;
 	collist[listlen] = col;
 	if (listlen < 99) { listlen++; } else {listlen=0;}
+if(document.getElementById("l"+(m+1)+","+col).className=="orangeval"){
+for (var i=0; i<100; i++) nblist[i] = "l";}
+else if(document.getElementById("u"+(m+2)+","+col).className=="purpleval"){
+for (var i=0; i<100; i++) nblist[i] = "u";}
 if(a[row][col]!=0){dothat.play();
 document.getElementById("x"+row+","+col).className="clickvar";
 
- 
- var loaded = false;
-    var minDone = false;
-    //The minimum timeout.
-    setTimeout(function(){
-        minDone = true;
-        if(loaded)
-        {
-            yellowtrue(row,col);
-        }
-    }, 200);
     setTimeout(function(){
         //Max timeout 
            yellowtrue(row,col);
 	  document.getElementById("x"+row+","+col).className="butvar";
-    }, 4000);
+    }, 2000);
     
-     $(window).on("load",function(){
-        loaded = true;
-        if(minDone)
-        {
-            yellowtrue(row,col);
-        }
-    });}
+  }
 else {	 element=    document.getElementById("u"+(m+2)+","+col);
     var element1=    document.getElementById("l"+(m+1)+","+col);
 document.getElementById("x"+row+","+col).className="clickvar";
@@ -864,8 +914,7 @@ document.getElementById("x"+row+","+col).className="clickvar";
 
 else{document.getElementById("x"+row+","+col).className="butvar";}
  
-return;}
-	
+return;}		
 }
 
 
@@ -881,102 +930,68 @@ ubgotClicked(row,col);}
 else {return;}}
 
  function lbgotChoice (row,col)  {
+for (var i=0; i<100; i++) blist[i] = "lb";
 document.getElementById("lb"+0).className="clickvar";
- var loaded = false;
-    var minDone = false;
-    //The minimum timeout.
-setTimeout(function(){
-        minDone = true;
-        if(loaded)
-        {
-        document.getElementById("lb"+0).className="butvar";
-        }
-    }, 200);
+
     setTimeout(function(){
         //Max timeout 
          
         document.getElementById("lb"+0).className="butvar";
-    }, 4000);
-    
-     $(window).on("load",function(){
-        loaded = true;
-        if(minDone)
-        {
-           
-        document.getElementById("lb"+0).className="butvar";
-        }
-    });
+    }, 1000);
+
 }
 
  function ubgotChoice() {
+for (var i=0; i<100; i++) blist[i] = "ub";
 document.getElementById("ub"+0).className="clickvar";
-var loaded = false;
-    var minDone = false;
-    //The minimum timeout.
-setTimeout(function(){
-        minDone = true;
-        if(loaded)
-        {
-        document.getElementById("ub"+0).className="butvar";
-        }
-    }, 200);
+
     setTimeout(function(){
         //Max timeout 
          
         document.getElementById("ub"+0).className="butvar";
-    }, 4000);
-    
-     $(window).on("load",function(){
-        loaded = true;
-        if(minDone)
-        {
-           
-        document.getElementById("ub"+0).className="butvar";
-        }
-    });
+    }, 1000);
 
 }
  
 function lowgotChoice(col) {
 
+
 	collist[listlen] = col;
 	if (listlen < 99) { listlen++; } else {listlen=0;}
-if((document.getElementById("l"+(m+1)+","+col).className=="orangeval")||(l[col]==-Infinity) ) {document.getElementById("l"+(m+1)+","+col).className="val";}
-    else{document.getElementById("l"+(m+1)+","+col).className="orangeval";document.getElementById("u"+(m+2)+","+col).className="val";}
+ if((document.getElementById("l"+(m+1)+","+col).className=="orangeval")||(l[col]==-Infinity )){
+for (var i=0; i<100; i++) lowlist[i] = "lco";document.getElementById("l"+(m+1)+","+col).className="val";}
+   else if ((document.getElementById("l"+(m+1)+","+col).className=="val")&& (document.getElementById("u"+(m+2)+","+col).className=="val")){
+for (var i=0; i<100; i++) lowlist[i] = "lcv";document.getElementById("l"+(m+1)+","+col).className="orangeval";}
+else if ((document.getElementById("l"+(m+1)+","+col).className=="val")&& (document.getElementById("u"+(m+2)+","+col).className=="purpleval")){
+for (var i=0; i<100; i++) lowlist[i] = "lc";document.getElementById("l"+(m+1)+","+col).className="orangeval";document.getElementById("u"+(m+2)+","+col).className="val";}
 toGrid();}
 
  function upgotChoice(col) {
 
 	collist[listlen] = col;
 	if (listlen < 99) { listlen++; } else {listlen=0;}
-   if((document.getElementById("u"+(m+2)+","+col).className=="purpleval")||(u[col]==Infinity )) {document.getElementById("u"+(m+2)+","+col).className="val";}
-   else{document.getElementById("u"+(m+2)+","+col).className="purpleval";document.getElementById("l"+(m+1)+","+col).className="val";}
+   if((document.getElementById("u"+(m+2)+","+col).className=="purpleval")||(u[col]==Infinity )){
+for (var i=0; i<100; i++) uplist[i] = "uco";document.getElementById("u"+(m+2)+","+col).className="val";}
+   else if ((document.getElementById("u"+(m+2)+","+col).className=="val")&& (document.getElementById("l"+(m+1)+","+col).className=="val")){
+for (var i=0; i<100; i++) uplist[i] = "ucv";document.getElementById("u"+(m+2)+","+col).className="purpleval";}
+else if ((document.getElementById("u"+(m+2)+","+col).className=="val")&& (document.getElementById("l"+(m+1)+","+col).className=="orangeval")){
+for (var i=0; i<100; i++) uplist[i] = "uc";document.getElementById("u"+(m+2)+","+col).className="purpleval";document.getElementById("l"+(m+1)+","+col).className="val";}
 toGrid();}
 
 
  function lbgotClicked(row,col) {
 
-	collist[listlen] = col;
-	if (listlen < 99) { listlen++; } else {listlen=0;}
-
 if(lb[row]!=-Infinity){document.getElementById("l"+(m+1)+","+col).className="orangeval";
 pivot(row,col);document.getElementById("u"+(m+2)+","+col).className="val";} 
-/*else{document.getElementById("u"+(m+2)+","+col).className="purpleval";
-document.getElementById("l"+(m+1)+","+col).className="val";
-}*/
+
 else{finiteB.play();}
 }
 
  function ubgotClicked(row,col) {
 
-	collist[listlen] = col;
-	if (listlen < 99) { listlen++; } else {listlen=0;}
-
 if(ub[row]!=Infinity){document.getElementById("u"+(m+2)+","+col).className="purpleval";
 pivot(row,col);document.getElementById("l"+(m+1)+","+col).className="val";} 
-/*else{document.getElementById("u"+(m+2)+","+col).className="val";
-document.getElementById("l"+(m+1)+","+col).className="orangeval";
-}*/
+
 else{finiteB.play();}
 }
 
@@ -1055,8 +1070,6 @@ toGrid();
 	var arowcol;
 	var brow, ccol;
 	var basicrow;
-	 element=    document.getElementById("u"+(m+2)+","+col);
-    var element1=    document.getElementById("l"+(m+1)+","+col);
 	
 	
 	for (i=1; i<=m; i++) { acol[i] = a[i][col]; }
@@ -1647,7 +1660,7 @@ for (i=1; i<=m+2; i++) {
 	                       { element.className = "val"; }
 	  }
         
-		nnv += lb[i] + " \u2264" +  document.getElementById("w"+i).value +" \u2264" +ub[i];
+		nnv += document.getElementById("lb"+i).value + " \u2264" +  document.getElementById("w"+i).value +" \u2264" +document.getElementById("ub"+i).value;
 	  if(i<m){nnv+=";  ";}
 	}
     for (i=1; i<=m; i++) {
