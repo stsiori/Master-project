@@ -935,6 +935,7 @@ function lowgotChoice(col) {
 
 	collist[listlen] = col;
 	if (listlen < 99) { listlen++; } else {listlen=0;}
+	for (var i=0; i<100; i++) rowlist[i] = -1;
  if((document.getElementById("l"+(m+1)+","+col).className=="orangeval")||(l[col]==-Infinity )){
 for (var i=0; i<100; i++) lowlist[i] = "lco";document.getElementById("l"+(m+1)+","+col).className="val";}
    else if ((document.getElementById("l"+(m+1)+","+col).className=="val")&& (document.getElementById("u"+(m+2)+","+col).className=="val")){
@@ -947,6 +948,7 @@ toGrid();}
 
 	collist[listlen] = col;
 	if (listlen < 99) { listlen++; } else {listlen=0;}
+	for (var i=0; i<100; i++) rowlist[i] = -1;
    if((document.getElementById("u"+(m+2)+","+col).className=="purpleval")||(u[col]==Infinity )){
 for (var i=0; i<100; i++) uplist[i] = "uco";document.getElementById("u"+(m+2)+","+col).className="val";}
    else if ((document.getElementById("u"+(m+2)+","+col).className=="val")&& (document.getElementById("l"+(m+1)+","+col).className=="val")){
