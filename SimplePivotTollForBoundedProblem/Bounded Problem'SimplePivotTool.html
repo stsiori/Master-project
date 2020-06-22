@@ -46,7 +46,7 @@ var lowlist=[];
 
   var xlo, xhi, ylo, yhi, plotwid;
 
-  var meg, bark, dothat, switchL,switchU,finiteB, pivotF;
+  var meg, bark, dothat, finiteB, pivotF;
   // FOLLOWING LINES ARE TO TEST THE BROWSWER SINCE meg.load() DOESN'T WORK IN
   // CHROME
   // Opera 8.0+
@@ -770,22 +770,22 @@ add("text","",1 ,m+2,"readonly","sign"  ,"lb"+(m+2));
 	
 	if (Math.random() <= 0.5) {
 	    bark = new Audio("fail-trombone.mp3");
-switchL= new Audio("switchtolow.mp3");
-switchU= new Audio("switchtoup.mp3");
-finiteB= new Audio("finitebound.mp3");
-pivotF=new Audio("you're stuck.mp3");
+finiteB= new Audio("finitebound.m4a");
+pivotF=new Audio("you'restuck.m4a");
 meg = new Audio("Home_Run.mp3");
-dothat= new Audio("clickuborlb.mp3");
-	} else {
-	    bark = new Audio("Tryagain.mp3");
-switchL= new Audio("movetolower.mp3");
-switchU= new Audio("Movetoupper.mp3");
-finiteB= new Audio("Down-to-earth.mp3");
-pivotF=new Audio("oupscan'tpivot.mp3");
+dothat= new Audio("Clicklbub.m4a");
+	} else if (0.5< Math.random() <= 1){
+bark = new Audio("Tryagain.mp3");
+finiteB= new Audio("Downtoearth.m4a");
+pivotF=new Audio("can'tpivot.m4a");
 meg = new Audio("deduction.mp3");
-dothat=new Audio("chooseuborlb.mp3");
-	}
-
+dothat=new Audio("Chooselbub.m4a");}
+else{
+bark = new Audio("doomed.m4a");
+finiteB= new Audio("doomed.m4a");
+pivotF=new Audio("doomed.m4a");
+meg = new Audio("deduction.mp3");
+dothat=new Audio("Chooselbub.m4a");}
 
 
 
@@ -886,47 +886,24 @@ document.getElementById("x"+row+","+col).className="clickvar";
         //Max timeout 
            yellowtrue(row,col);
 	  document.getElementById("x"+row+","+col).className="butvar";
-    }, 2000);
+    }, 3000);
     
   }
-else {	 element=    document.getElementById("u"+(m+2)+","+col);
-    var element1=    document.getElementById("l"+(m+1)+","+col);
-document.getElementById("x"+row+","+col).className="clickvar";
-         if(element.className=="purpleval" && (l[col]==-Infinity )) {
+else {	 
 	    pivotF.play();
 	   setTimeout(function(){
 	  document.getElementById("x"+row+","+col).className="butvar";
-    }, 1000); }
-	else if(element.className=="purpleval" && (l[col]!=-Infinity )){switchL.play();setTimeout(function(){
-      element1.className="orangeval";element.className="val";
-    }, 500);setTimeout(function(){
-	  document.getElementById("x"+row+","+col).className="butvar";
-    }, 1000);}
-	if(element1.className=="orangeval" && (u[col]==Infinity ))
-	    {pivotF.play();setTimeout(function(){
-	  document.getElementById("x"+row+","+col).className="butvar";
-    }, 1000); }
-	else if(element1.className=="orangeval" && (u[col]!=Infinity )){switchU.play(); setTimeout(function(){
-       element.className="purpleval";element1.className="val";
-    }, 500);setTimeout(function(){
-	  document.getElementById("x"+row+","+col).className="butvar";
-    }, 1000);}
-
-else{document.getElementById("x"+row+","+col).className="butvar";}
+    }, 300); 
  
 return;}		
 }
-
 
  
 function yellowtrue(row,col){
 if(document.getElementById("lb"+0).className=="clickvar"){
 lbgotClicked(row,col);}
-
-
 else if(document.getElementById("ub"+0).className=="clickvar"){
 ubgotClicked(row,col);}
-
 else {return;}}
 
  function lbgotChoice (row,col)  {
@@ -937,7 +914,7 @@ document.getElementById("lb"+0).className="clickvar";
         //Max timeout 
          
         document.getElementById("lb"+0).className="butvar";
-    }, 1000);
+    }, 2000);
 
 }
 
@@ -949,7 +926,7 @@ document.getElementById("ub"+0).className="clickvar";
         //Max timeout 
          
         document.getElementById("ub"+0).className="butvar";
-    }, 1000);
+    }, 2000);
 
 }
  
@@ -981,18 +958,17 @@ toGrid();}
 
  function lbgotClicked(row,col) {
 
-if(lb[row]!=-Infinity){document.getElementById("l"+(m+1)+","+col).className="orangeval";
+if(lb[row]==-Infinity){finiteB.play();}
+else{document.getElementById("l"+(m+1)+","+col).className="orangeval";
 pivot(row,col);document.getElementById("u"+(m+2)+","+col).className="val";} 
 
-else{finiteB.play();}
 }
 
  function ubgotClicked(row,col) {
 
-if(ub[row]!=Infinity){document.getElementById("u"+(m+2)+","+col).className="purpleval";
+if(ub[row]==Infinity){finiteB.play();}
+else{document.getElementById("u"+(m+2)+","+col).className="purpleval";
 pivot(row,col);document.getElementById("l"+(m+1)+","+col).className="val";} 
-
-else{finiteB.play();}
 }
 
   function ck_edits() {
@@ -1133,27 +1109,19 @@ l[col]=lb[row];
 }
 
 
-  function ck_opt()
+ function ck_opt()
   {
   	var i, j;
   	var optflag=true;
   
-  	for (i=1; i<=m; i++) { 
-	    b[i] = fracDivide(document.getElementById("b"+i).value);
-	}
-  
-  	for (j=mmn+1; j<=n; j++) { 
-	    c[j] = fracDivide(document.getElementById("c"+j).value);
-	}
-  
   	for (i=1; i<=m; i++) {
-  		if ((vb[i] < 1e-10*lb[i])||(vb[i] > 1e-10*ub[i])) {
+  		if (document.getElementById("vb"+i).className=="pinkval") {
   			optflag = false;
   		}
   	}
   
-  	for (j=mmn+1; j<=n; j++) {element=document.getElementById("l"+(m+1)+","+j);element1=document.getElementById("u"+(m+2)+","+j);
-  		if ((element.className=="orangeval" && c[j] > 1e-10) || (element1.className=="purpleval" && c[j] <-1e-10)) {
+  	for (j=mmn+1; j<=n; j++) {element=document.getElementById("c"+j);
+  		if (element.className=="pinkval") {
   			optflag = false;
   		}
   	}
@@ -1165,6 +1133,7 @@ l[col]=lb[row];
 	
   	}
   }
+
   
   function ck_p_unbdd()
   {
