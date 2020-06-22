@@ -197,15 +197,20 @@ var lowlist=[];
 	var upper=0;
     
 
-if(n>2){  
-for(i=1;i<=2;i++){ 
-     element=document.getElementById("l"+(m+1)+","+i);
-      element.className="orangeval";}
-     for(j=3;j<=n;j++){element=document.getElementById("u"+(m+2)+","+j); element.className = "purpleval";}
-    }
-    else if(n==1){document.getElementById("l"+(m+1)+","+1).className = "purpleval";}else{document.getElementById("l"+(m+1)+","+1).className= "purpleval";document.getElementById("u"+(m+2)+","+2).className = "orangeval";}
+
+	if(Math.random()<.5){
+		for(i=1;i<=n;i++){ 
+     			element=document.getElementById("l"+(m+1)+","+i);
+      			element.className="orangeval";}
+			}
+	else {
+		for(i=1;i<=n;i++){ 
+    			element=document.getElementById("u"+(m+2)+","+i);
+      			element.className="purpleval";}
+		}
 
 
+    
 // ==================================================
 	for (i=1; i<=m; i++) { a[i] = [];}
  
@@ -278,7 +283,7 @@ for(i=1;i<=2;i++){
 	}
 
      
-	if (n==2 && method == "Primal" && myrand() < 0.8) {
+	/*if (n==2 && method == "Primal" && myrand() < 0.8) {
 		var xcenter = 1.0 + myrand()*m/9;
 		var ycenter = 1.0 + myrand()*m/9;
 		var r = 1.25*Math.sqrt(xcenter*xcenter+ycenter*ycenter);;
@@ -298,7 +303,7 @@ for(i=1;i<=2;i++){
 			a[i][2] = Math.round(5*a[i][2]);
 			b[i]    = Math.round(5*b[i]);
 		}
-	}
+	}*/
 
 	// ==================================================
 
