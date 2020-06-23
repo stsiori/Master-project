@@ -783,7 +783,7 @@ dothat= new Audio("Clicklbub.m4a");
 bark = new Audio("Tryagain.mp3");
 finiteB= new Audio("Downtoearth.m4a");
 pivotF=new Audio("can'tpivot.m4a");
-meg = new Audio("deduction.mp3");
+meg = new Audio("godjob.mp3");
 dothat=new Audio("Chooselbub.m4a");}
 else{
 bark = new Audio("doomed.m4a");
@@ -1131,7 +1131,16 @@ l[col]=lb[row];
   		if (element.className=="pinkval") {
   			optflag = false;
   		}
+}
+for (j=1; j<=n; j++) {element=document.getElementById("l"+(m+1)+","+j);element1=document.getElementById("u"+(m+2)+","+j);
+  		if (element1.className=="val" && element.className=="val") {
+			if( (l[j]!=0 || u[j]!=0) && (l[j]>0 || u[j]<0)) {
+  			optflag = false;
+  		}
+			
+	
   	}
+}
   
   	if (optflag == true) {
   		meg.play();
@@ -1139,6 +1148,7 @@ l[col]=lb[row];
   		bark.play();
 	
   	}
+
   }
 
   
@@ -1168,7 +1178,7 @@ l[col]=lb[row];
 	if (document.getElementById("l"+(m+1)+","+j).className=="orangeval" && c[j] > 1e-10){
 d_infeas_flag=true;	
     for (i=1; i<=m; i++) {
-  		    if (a[i][j] > 0.00001) {
+  		    if (a[i][j] < -0.00001) {
   			d_infeas_flag = false;
   			break;
   		    }
@@ -1176,7 +1186,7 @@ d_infeas_flag=true;
        if (document.getElementById("u"+(m+2)+","+j).className=="purpleval" && c[j] < -1e-10){
   d_infeas_flag=true;
 	for (i=1; i<=m; i++) {
-  		    if (a[i][j] <-0.00001) {
+  		    if (a[i][j] >0.00001) {
   			d_infeas_flag = false;
   			break;
   		    }
@@ -1206,7 +1216,8 @@ d_infeas_flag=true;
   function ck_p_infeas()
   {
   	var i, j;
-  	var p_infeas_flag=false;
+  	var p_infeas_flag1=false;
+	var p_infeas_flag2=false;
   
   	for (i=1; i<=m; i++) {
 	    vb[i] = fracDivide(document.getElementById("vb"+i).value);
@@ -1226,19 +1237,29 @@ d_infeas_flag=true;
   	}
   
   	for (i=1; i<=m; i++) {
-  	    if ((vb[i] < 1e-10*lb[i])||(vb[i] > 1e-10*ub[i])) {
-  		p_infeas_flag = true;
-  		/*for (j=mmn+1; j<=n; j++) {
+  	    if ((vb[i] < 1e-10*lb[i])) {
+  		p_infeas_flag1 = true;
+  		for (j=mmn+1; j<=n; j++) {
   		    if (a[i][j] >  0.00001) {
-  			p_infeas_flag = false;
+  			p_infeas_flag1 = false;
   			break;
   		    }
-  		}*/
-  		if (p_infeas_flag == true) break;
-  	    }
+  		}
+	   }
+	   if ((vb[i] > 1e-10*ub[i])) {
+  		p_infeas_flag2 = true;
+  		for (j=mmn+1; j<=n; j++) {
+  		    if (a[i][j] <  -0.00001) {
+  			p_infeas_flag2 = false;
+  			break;
+  		    }
+  		}
+	   }
+  		if (p_infeas_flag1 == true || p_infeas_flag2== true) break;
+  	
   	}
   
-  	if (p_infeas_flag == true) {
+  	if (p_infeas_flag1 == true || p_infeas_flag2== true) {
   		// reset();
   		meg.play();
   	} else {
