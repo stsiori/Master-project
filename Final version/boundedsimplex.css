@@ -1,0 +1,311 @@
+body{
+	min-width: 1167px;
+	overflow-x: scroll;
+direction: ltr;
+	top:0; left:0; right:0; bottom:0;
+}
+
+
+header {
+        text-align:center;
+}
+
+#container {
+        position: relative;
+}
+footer {
+        clear: both;
+}
+
+
+.row {
+        display: flex;
+justify-content: center;
+border-top: 1px solid black;
+border-bottom: 1px solid black;
+         
+}
+
+
+.column {
+}
+
+.clickvar {
+	text-align:center;
+	background-color: #00f6ff;
+        padding: 0px 7.5px;
+	width:30;
+}
+
+.but {
+	font-size: 1.0em;
+       
+	text-align:center;
+	background-color: #EEEEEE;
+}
+
+.fixvar {
+       
+	text-align:right;
+	text-color: #000000;
+	background-color: #FFFFFF;
+	border: none;
+	width:100;
+}
+.maxvar {
+       
+	text-align:right;
+	text-color:#FFFFFF;
+	background-color: #4dd9d2;
+	width:100;
+}
+.minvar {
+       
+	text-align:right;
+	text-color:#FFFFFF;
+	background-color: #f2d057;
+	width:100;
+}
+
+
+.var {
+	background-color: #ebebe0;
+	border: none;
+	font-size: 0.8em;
+	padding: 0px 7.5px;
+	text-align:center;
+        color: #000000; 
+	width:30;
+}
+
+.butvar {
+	text-align:center;
+	background-color: #ebebe0;
+        padding: 0px 7.5px;
+	width:30;
+}
+
+.varright {
+	background-color: #FFFFFF;
+	border: none;
+	font-size: 0.8em;
+        
+	text-align:right;
+}
+
+.pinkvar {
+	background-color: #FFAAFF;
+	font-size: 0.8em;
+        
+}
+
+.greenvar {
+	border: none;
+	background-color: #AAFFAA;
+	font-size: 0.8em;
+       width:30;
+}
+
+
+.whitevar {
+	border: none;
+        color: #FFFFFF; 
+	background-color: #FFFFFF;
+	font-size: 0.8em;
+       width:30;
+}
+
+.grayvar {
+	border:none;        
+	color: #FFFFFF; 
+	background-color: #F8F8F8;
+	font-size: 0.8em;
+      width:30;
+}
+
+.zerovar {
+	border: none;
+        color: #CCCCCC; 
+	background-color: #F8F8F8;
+	font-size: 0.8em;
+       width:30;
+	text-align:center;
+}
+
+.equals {
+	border: none;
+	font-size: 0.8em;
+	width:12;
+        
+}
+
+.valcenter {
+	background-color: #FFFFFF;
+	font-size: 0.8em;
+	text-align:center;
+}
+
+.yellowvalcenter {
+	background-color: #FFFFAA;
+	text-align:center;
+	font-size: 0.8em;
+}
+
+.val {
+border: none;	background-color: #FFFFFF;
+	text-align:center;
+	font-size: 0.8em;
+	//width:60;
+}
+.showval {
+background-color: #FFFFFF;
+	text-align:center;
+	font-size: 0.8em;
+	//width:60;
+}
+.fixval {
+border: none;	background-color: #FFFFFF;
+	text-align:center;
+	font-size: 0.8em;
+}
+
+.grayval {
+
+border: none;	background-color: #F8F8F8;
+	text-align:center;
+	font-size: 0.8em;
+//width:60;
+}
+
+.pinkval {
+border: none;	background-color: #FFAAFF;
+	text-align:center;
+	font-size: 0.8em;
+//width:60;
+}
+
+.yellowval {
+
+border: none;	background-color: #FFFFAA;
+
+	text-align:center;
+	font-size: 0.8em;
+//width:60;
+}
+
+.orangeval {
+
+border: none;	background-color: #ffaa80;
+
+	text-align:center;
+	font-size: 0.8em;
+//width:60;
+}
+
+.purpleval {
+
+	border: none;	
+	background-color: #b3b3ff;
+
+	text-align:center;
+	font-size: 0.8em;
+//width:60;
+}
+
+.whiteval {
+
+	border: none;	
+	background-color: #FFFFFF;
+         color:  #FFFFFF;
+	border-color: transparent;
+	text-align:center;
+	font-size: 0.8em;
+//width:60;
+}
+
+.zeroval {
+
+border: none;
+ 	border-color: transparent;
+        color: #CCCCCC; 
+	text-align:center;
+	font-size: 0.8em;
+//width:60;
+}
+
+.sign {
+	border: none;
+	color: #000000;
+	font-size: 0.8em;
+       width:30;
+        //height: 1.63em;
+}
+
+.graysign {
+	border: none;
+         width:30;
+        color: #CCCCCC; 
+	font-size: 0.8em;
+       
+        //height: 1.63em;
+}
+
+.whitesign {
+	border: none;
+         width:30;
+        color: #FFFFFF; 
+	font-size: 0.8em;
+        
+        //height: 1.63em;
+}
+
+.input {	font-size: 1.0em;
+         //width:30;
+	text-align:center;
+}
+
+.text {
+   
+border: none;
+      color: #000000;
+	font-size: 1.0em;
+        //width:10;
+	text-align:center;
+}
+
+.whitetext {
+        color: #FFFFFF;
+	font-size: 1.0em;
+       
+	text-align:center;
+}
+
+.info {
+	border: none;
+	text-align:center;
+	font-size: 0.8em;
+       
+        width: 100%;
+}
+
+.yourname {
+	font-size: 1.0em;
+       
+	text-align:center;
+}
+
+
+BODY {
+	font-family: Verdana;
+       
+	font-size: 0.8em;
+}
+
+
+span {
+	background-color: #FFFFFF;
+}
+
+
+#ruler {visibility: hidden; white-space: nowrap;}
+
