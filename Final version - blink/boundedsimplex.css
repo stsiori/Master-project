@@ -11,13 +11,6 @@ direction: ltr;
         border: none;
         text-align: center;
       }
-.fixbutton {
-        background-color: #00f6ff;
-        padding: 0px 7.5px;
-	width:100;
-        border: none;
-        text-align: center;
-      }
   @keyframes glowing {
         0% {
           background-color: #49e819;
@@ -35,9 +28,7 @@ direction: ltr;
       .varbutton {
         animation: glowing 600ms infinite;
       }
-      .fixbutton {
-        animation: glowing 600ms infinite;
-      }
+      
 header {
         text-align:center;
 }
@@ -58,14 +49,8 @@ border-bottom: 1px solid black;
          
 }
 
-.fa-thumbs-up, .fa-thumbs-down, .fa-frown-o, 
-.fa-smile-o, .fa-trophy {
 
-  color: darkblue;
-}
-.fa-exclamation-circle, .fa-ban, .fa-times  {
-
-  color:f71111;
+.column {
 }
 
 .clickvar {
@@ -74,7 +59,6 @@ border-bottom: 1px solid black;
         padding: 0px 7.5px;
 	width:30;
 }
-
 
 .but {
 	font-size: 1.0em;

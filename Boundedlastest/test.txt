@@ -1,0 +1,11 @@
+ const winUrl = '<LINK REL="stylesheet" HREF="Bounded Problem'SimplePivotToollastchangefrom summer.html" TYPE="text/html" MEDIA="screen">';
+
+/*const winUrl = URL.createObjectURL(
+    new Blob([winHtml], { type: "text/html" })
+);*/
+
+export const win = window.open(
+    winUrl,
+    "win",
+    'width=800,height=400,screenX=200,screenY=200'
+);

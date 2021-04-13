@@ -907,8 +907,6 @@ if(method=="Primal"){
 				}
 			}
 		}
-		if(lb[row]==-Infinity && ub[row]==Infinity){ document.getElementById("zero").disabled=false;
-			document.getElementById("zero").className="fixbutton";}
 		if(lb[row]!=-Infinity){
 				document.getElementById("w"+row+","+(n+1)).className="varbutton";
 				document.getElementById("w"+row+","+(n+1)).disabled=false;}
@@ -931,50 +929,10 @@ if(method=="Primal"){
 		}
   	}
   }
- function zerogotChoice(){
-	
-	var click=false;
-        var col;
-	var row;
-	for(i=1;i<=m;i++){
-		for(j=1;j<=n;j++){
-			if( document.getElementById("x"+i+","+j).className=="clickvar"){
-				click=true;
-				col=j;
-				row=i;
-				break;		
-			}
-		}
-	}
-	rowlist[listlen] = row;
-	collist[listlen] = col;
-	
-	if(document.getElementById("a"+(m+1)+","+col).className=="orangeval"){
-		lblist[listlen] = col;
-	}
-	else if(document.getElementById("a"+(m+2)+","+col).className=="purpleval"){
-		ublist[listlen]= col;
-	}
-	if (listlen < 99) { listlen++; } else {listlen=0;}
- 
-	if(click==true ){
-		zerogotClicked(row,col);
-		document.getElementById("zero").disabled=true;
-		document.getElementById("zero").className="fixvar";
-		document.getElementById("x"+row+","+col).className="butvar";
-	} 
-	
-	toGrid();
-  }
- function zerogotClicked(row,col) {
-		pivot(row,col);
-		document.getElementById("a"+(m+2)+","+col).className="zeroval";
-		document.getElementById("x"+(m+2)+","+col).disabled= true;
-		document.getElementById("a"+(m+1)+","+col).className="zeroval";
-	toGrid();
- }
 
   function lbgotChoice(row){
+	
+	
 	
 	var click=false;
         var col;
@@ -1176,26 +1134,6 @@ function lowgotChoice(col) {
 		} else {
 				for (j=1; j<=n; j++) {
 					if(document.getElementById("mb"+0).className=="maxvar"){
-					if( a[m+1][j]==-Infinity && a[m+2][j]==Infinity){
-						tmp = 1e+10;
-						for (i=1; i<=m; i++) {
-		  					if ((lb[i]-vb[i])/(-a[i][j]) < tmp) {
-		    						tmp = (lb[i]-vb[i])/(-a[i][j]);
-		  					}
-							else if ((ub[i]-vb[i])/(-a[i][j]) < tmp) {
-		    						tmp = (ub[i]-vb[i])/(-a[i][j]);
-		  					}
-						}
-						
-						for (i=1; i<=m; i++) {
-							if ((lb[i]-vb[i])/(-a[i][j]) < tmp+eps) {
-		    						document.getElementById("x"+i+","+j).className = "greenvar";
-							}
-							if ((ub[i]-vb[i])/(-a[i][j]) < tmp+eps) {
-		    						document.getElementById("x"+i+","+j).className = "greenvar";
-							}
-						}
-					} else {
 					 if( up[j].className=="purpleval" && c[j]< -eps){ 
 						tmp=a[m+2][j]-a[m+1][j];
 						for (i=1; i<=m; i++) {
@@ -1241,28 +1179,7 @@ function lowgotChoice(col) {
 							}
 						}
 					}
-				   }
 				} else { 
-					if( a[m+1][j]==-Infinity && a[m+2][j]==Infinity){
-						tmp = 1e+10;
-						for (i=1; i<=m; i++) {
-		  					if ((lb[i]-vb[i])/(-a[i][j]) < tmp) {
-		    						tmp = (lb[i]-vb[i])/(-a[i][j]);
-		  					}
-							else if ((ub[i]-vb[i])/(-a[i][j]) < tmp) {
-		    						tmp = (ub[i]-vb[i])/(-a[i][j]);
-		  					}
-						}
-						
-						for (i=1; i<=m; i++) {
-							if ((lb[i]-vb[i])/(-a[i][j]) < tmp+eps) {
-		    						document.getElementById("x"+i+","+j).className = "greenvar";
-							}
-							if ((ub[i]-vb[i])/(-a[i][j]) < tmp+eps) {
-		    						document.getElementById("x"+i+","+j).className = "greenvar";
-							}
-						}
-					} else {
 					if( up[j].className=="purpleval" && c[j]> eps){ 
 						tmp=a[m+2][j]-a[m+1][j];
 						for (i=1; i<=m; i++) {
@@ -1310,7 +1227,6 @@ function lowgotChoice(col) {
 		      			}
 					
 				    }
-				}
 			}	
 		}
 
@@ -1320,16 +1236,10 @@ function lowgotChoice(col) {
 			else{
 			hint.play(); return; } 
 		} else { 
-			
 			if(document.getElementById("mb"+0).className=="maxvar"){
 			    for (i=1; i<=m; i++) {
 				tmp = 1e+10;
 				if(document.getElementById("vb"+i).className=="pinkval"){
-				for (j=1; j<=n; j++) {
-						if( a[m+1][j]==-Infinity && a[m+2][j]==Infinity){
-		    						tmp = c[j]/(a[i][j]);
-						} 
-				}
 				if (vb[i]<lb[i]*eps) {
 					for (j=1; j<=n; j++) {
 						if ((a[i][j] > eps &&  low[j].className == "orangeval" && c[j]/(-a[i][j]) < tmp) || 
@@ -1351,12 +1261,6 @@ function lowgotChoice(col) {
 		    					tmp = a[m+2][j]-a[m+1][j];
 		  				}
 					}
-				}
-				
-				for (j=1; j<=n; j++) {
-						if(a[m+1][j]==-Infinity && a[m+2][j]==Infinity && c[j]/a[i][j] < tmp+eps){
-							document.getElementById("x"+i+","+j).className = "greenvar";
-						}
 				}
 	      			if(lb[i]==-Infinity && ub[i]==Infinity){
 					for (j=1; j<=n; j++) {
@@ -2101,34 +2005,28 @@ function lowgotChoice(col) {
 	
 	element = document.createElement("br");
 	rowElement = document.getElementById("rowStuff"+(m+4));
-	rowElement.appendChild(element);	
+	rowElement.appendChild(element);
+
 	element = document.createElement("br");
 	rowElement = document.getElementById("rowStuff"+(m+4));
 	rowElement.appendChild(element);
-
-	 add("button","Leave to zero",1,m+5,"","fixvar","zero");
-        document.getElementById("zero").style.textAlign = "center";
-
 	element = document.createElement("br");
-	rowElement = document.getElementById("rowStuff"+(m+5));
-	rowElement.appendChild(element);
-	element = document.createElement("br");
-	rowElement = document.getElementById("rowStuff"+(m+5));
+	rowElement = document.getElementById("rowStuff"+(m+4));
 	rowElement.appendChild(element);
     if(m<7){
-	add("button", "", 80, m+6, "readonly", "fixval", "basicvars");
-	add("button", "", 80, m+7, "readonly", "fixval", "nonbasicvars");
+	add("button", "", 80, m+5, "readonly", "fixval", "basicvars");
+	add("button", "", 80, m+6, "readonly", "fixval", "nonbasicvars");
 		
 	}
  	else if(7<=m<13){
-	add("button", "", 80, m+6, "readonly", "fixval", "basicvars");
-	add("button", "", 80, m+7, "readonly", "fixval", "basicvars1");
-	add("button", "", 80, m+8, "readonly", "fixval", "nonbasicvars");	
+	add("button", "", 80, m+5, "readonly", "fixval", "basicvars");
+	add("button", "", 80, m+6, "readonly", "fixval", "basicvars1");
+	add("button", "", 80, m+7, "readonly", "fixval", "nonbasicvars");	
 	} else {
-	add("button", "", 80, m+6, "readonly", "fixval", "basicvars");
-	add("button", "", 80, m+7, "readonly", "fixval", "basicvars1");
-	add("button", "", 80, m+8, "readonly", "fixval", "basicvars2");
-	add("button", "", 80, m+9, "readonly", "fixval", "nonbasicvars");
+	add("button", "", 80, m+5, "readonly", "fixval", "basicvars");
+	add("button", "", 80, m+6, "readonly", "fixval", "basicvars1");
+	add("button", "", 80, m+7, "readonly", "fixval", "basicvars2");
+	add("button", "", 80, m+8, "readonly", "fixval", "nonbasicvars");
 		
 	}
         
@@ -2142,9 +2040,6 @@ function lowgotChoice(col) {
 
 	var element = document.getElementById("mb"+0);
 	element.setAttribute("onclick","pbgotClicked()");
-	
-	var element = document.getElementById("zero");
-	element.setAttribute("onclick","zerogotChoice()");
 
 	for(i=1;i<=m;i++){
  		var element = document.getElementById("w"+i+","+(n+1));
@@ -2271,13 +2166,6 @@ function lowgotChoice(col) {
    	add("text","UB",1 ,0,"readonly","val" ,"ub"+0);
 
 	add("text","",1,0,"readonly","whitevar"   ,"w"+0+","+(n+2));
-	
-	 add("button","Leave to zero",1,0,"","fixvar","zero");
-        document.getElementById("zero").style.textAlign = "center";
-	document.getElementById("zero").disabled=true;
-	
-	var element = document.getElementById("zero");
-	element.setAttribute("onclick","zerogotChoice()");
 
 	element = document.createElement("br");
 	rowElement = document.getElementById("rowStuff"+0);
@@ -2337,8 +2225,6 @@ function lowgotChoice(col) {
 	    	element = document.getElementById("w"+i+","+(n+2));
 		element.disabled=true;
 
-		add("text","","",i,"readonly"        ,"fixvar"   ,"w"+i+","+(n+3));
-
           	element = document.createElement("br");
 		rowElement = document.getElementById("rowStuff"+i);
 		rowElement.appendChild(element);
@@ -2392,8 +2278,6 @@ function lowgotChoice(col) {
 	    	element = document.getElementById("w"+i+","+(n+2));
 		element.disabled=true;
 
-		add("text","","",i,"readonly"        ,"fixvar"   ,"w"+i+","+(n+3));
-
           	element = document.createElement("br");
 		rowElement = document.getElementById("rowStuff"+i);
 		rowElement.appendChild(element);
@@ -2405,6 +2289,7 @@ function lowgotChoice(col) {
 	        element.setAttribute("onclick","gotClicked("+i+","+j+")");
 	    }
 	}
+   
 
 	element = document.createElement("br");
 	rowElement = document.getElementById("rowStuff"+(m+2));
@@ -3442,9 +3327,6 @@ function ck_p_infeas(x){
              	 plotcanvas.setAttribute("onmouseleave", "toGrid()");
 
         
-        document.getElementById("zero").disabled=true;
-	document.getElementById("zero").className="fixvar";
-
 	tmp = ""+myformat(obj);
         wid = Math.max(3,tmp.length);
         maxden = den;
@@ -3877,7 +3759,7 @@ function ck_p_infeas(x){
 			
 	        
 			element = document.getElementById("x"+i+","+j);
-               	 	if (Math.abs(a[i][j]) < 1e-10 ) { 
+               	 	if (Math.abs(a[i][j]) < 1e-10 || (lb[i] == -Infinity && ub[i]==Infinity)) { 
                   		if (vis == "Dimmed")    { element.className = "zerobutvar"; element.disabled = true;} else
                   		if (vis == "Invisible") { element.className = "graybutvar"; element.disabled = true; } else
                   		if (vis == "Visible")   { element.className = "butvar";  element.disabled = true;}

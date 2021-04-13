@@ -4,40 +4,8 @@ body{
 direction: ltr;
 	top:0; left:0; right:0; bottom:0;
 }
- .varbutton {
-        background-color: #00f6ff;
-        padding: 0px 7.5px;
-	width:30;
-        border: none;
-        text-align: center;
-      }
-.fixbutton {
-        background-color: #00f6ff;
-        padding: 0px 7.5px;
-	width:100;
-        border: none;
-        text-align: center;
-      }
-  @keyframes glowing {
-        0% {
-          background-color: #49e819;
-          box-shadow: 0 0 5px #49e819;
-        }
-        50% {
-          background-color: #cce4ff;
-          box-shadow: 0 0 20px #cce4ff;
-        }
-        100% {
-          background-color: #49e819;
-          box-shadow: 0 0 5px #49e819;
-        }
-      }
-      .varbutton {
-        animation: glowing 600ms infinite;
-      }
-      .fixbutton {
-        animation: glowing 600ms infinite;
-      }
+
+
 header {
         text-align:center;
 }
@@ -58,23 +26,16 @@ border-bottom: 1px solid black;
          
 }
 
-.fa-thumbs-up, .fa-thumbs-down, .fa-frown-o, 
-.fa-smile-o, .fa-trophy {
 
-  color: darkblue;
-}
-.fa-exclamation-circle, .fa-ban, .fa-times  {
-
-  color:f71111;
+.column {
 }
 
 .clickvar {
 	text-align:center;
-	background-color: #cce4ff;
+	background-color: #00f6ff;
         padding: 0px 7.5px;
 	width:30;
 }
-
 
 .but {
 	font-size: 1.0em;
